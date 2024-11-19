@@ -44,8 +44,6 @@
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            lblResumen = new Label();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvEmpleados).BeginInit();
             SuspendLayout();
             // 
@@ -178,30 +176,11 @@
             label4.TabIndex = 10;
             label4.Text = "Sucursal:";
             // 
-            // lblResumen
-            // 
-            lblResumen.AutoSize = true;
-            lblResumen.Location = new Point(250, 446);
-            lblResumen.Name = "lblResumen";
-            lblResumen.Size = new Size(0, 15);
-            lblResumen.TabIndex = 11;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(105, 327);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 12;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            // 
             // Employee_management
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(879, 562);
-            Controls.Add(button1);
-            Controls.Add(lblResumen);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -234,11 +213,9 @@
         private Label label2;
         private Label label3;
         private Label label4;
-        private Label lblResumen;
         private DataGridViewTextBoxColumn Fecha;
         private DataGridViewTextBoxColumn Sucursal;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn ID_Empleado;
-        private Button button1;
     }
 }

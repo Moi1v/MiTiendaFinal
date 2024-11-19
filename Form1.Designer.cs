@@ -43,10 +43,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(43, 77);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(38, 58);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(359, 133);
+            pictureBox1.Size = new Size(314, 100);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -54,27 +53,26 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(73, 307);
+            label1.Location = new Point(64, 230);
             label1.Name = "label1";
-            label1.Size = new Size(59, 20);
+            label1.Size = new Size(47, 15);
             label1.TabIndex = 1;
             label1.Text = "Usuario";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(70, 343);
+            label2.Location = new Point(61, 257);
             label2.Name = "label2";
-            label2.Size = new Size(83, 20);
+            label2.Size = new Size(67, 15);
             label2.TabIndex = 2;
             label2.Text = "Contraseña";
             // 
             // BtnIngresar
             // 
-            BtnIngresar.Location = new Point(70, 394);
-            BtnIngresar.Margin = new Padding(3, 4, 3, 4);
+            BtnIngresar.Location = new Point(61, 296);
             BtnIngresar.Name = "BtnIngresar";
-            BtnIngresar.Size = new Size(299, 51);
+            BtnIngresar.Size = new Size(262, 38);
             BtnIngresar.TabIndex = 3;
             BtnIngresar.Text = "Ingresar";
             BtnIngresar.UseVisualStyleBackColor = true;
@@ -82,10 +80,9 @@
             // 
             // BtnSalir
             // 
-            BtnSalir.Location = new Point(237, 464);
-            BtnSalir.Margin = new Padding(3, 4, 3, 4);
+            BtnSalir.Location = new Point(207, 348);
             BtnSalir.Name = "BtnSalir";
-            BtnSalir.Size = new Size(132, 41);
+            BtnSalir.Size = new Size(116, 31);
             BtnSalir.TabIndex = 4;
             BtnSalir.Text = "Salir";
             BtnSalir.UseVisualStyleBackColor = true;
@@ -93,26 +90,26 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(155, 296);
-            textBox1.Margin = new Padding(3, 4, 3, 4);
+            textBox1.Location = new Point(136, 222);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(205, 27);
+            textBox1.Size = new Size(180, 23);
             textBox1.TabIndex = 5;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(155, 335);
-            textBox2.Margin = new Padding(3, 4, 3, 4);
+            textBox2.Location = new Point(136, 251);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(205, 27);
+            textBox2.PasswordChar = '*';
+            textBox2.Size = new Size(180, 23);
             textBox2.TabIndex = 6;
             // 
             // btnRegistrar
             // 
-            btnRegistrar.Location = new Point(73, 464);
+            btnRegistrar.Location = new Point(64, 348);
+            btnRegistrar.Margin = new Padding(3, 2, 3, 2);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.Size = new Size(132, 41);
+            btnRegistrar.Size = new Size(116, 31);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Registrar usuario";
             btnRegistrar.UseVisualStyleBackColor = true;
@@ -120,9 +117,9 @@
             // 
             // log_in
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(440, 600);
+            ClientSize = new Size(385, 450);
             Controls.Add(btnRegistrar);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -132,7 +129,6 @@
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 4, 3, 4);
             Name = "log_in";
             Text = "log in";
             Load += log_in_Load;
