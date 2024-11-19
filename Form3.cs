@@ -41,7 +41,6 @@ namespace MiTienda
             }
             else
             {
-                lblResumen.Text = $"Total de empleados encontrados: {datosFiltrados.Count}";
             }
         }
 
