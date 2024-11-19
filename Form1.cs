@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 namespace MiTienda
 {
     public partial class log_in : Form
@@ -45,6 +46,25 @@ namespace MiTienda
 
         private void log_in_Load(object sender, EventArgs e)
         {
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+            string query = "SELECT * FROM Products";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Conectado a la Base de datos");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudo conectar a la Base de datos");
+                }
+
+            }
 
         }
 
