@@ -1,8 +1,12 @@
+using ConexionSQLAzure;
 using Microsoft.Data.SqlClient;
+using System.Data.Common;
 namespace MiTienda
 {
     public partial class log_in : Form
+
     {
+        private AzureSqlConnection _connection;
         public log_in()
         {
             InitializeComponent();
@@ -46,25 +50,11 @@ namespace MiTienda
 
         private void log_in_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+            string connectionString = "Server=uspg.database.windows.net;Database=winforms-pos;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
+            _connection = new AzureSqlConnection(connectionString);
+          // EJECUCION DE QUERYS var Tabla =  _connection.ExecuteQuery ("SELECT * FROM Products")  ;
 
-            string query = "SELECT * FROM Products";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-
-                try
-                {
-                    connection.Open();
-                    MessageBox.Show("Conectado a la Base de datos");
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("No se pudo conectar a la Base de datos");
-                }
-
-            }
+            
 
         }
 
