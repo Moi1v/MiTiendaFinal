@@ -42,7 +42,9 @@ namespace MiTienda
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-
+            Ventas designedForm = new Ventas();
+            designedForm.Show();
+            this.Hide();
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
