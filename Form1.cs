@@ -15,6 +15,7 @@ namespace MiTienda
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
 
+
             string usuario = textBox1.Text;
             string contrasena = textBox2.Text;
 
@@ -41,6 +42,9 @@ namespace MiTienda
                 textBox1.Clear();
                 textBox2.Clear();
             }
+
+
+
         }
 
         private void BtnSalir_Click(object sender, EventArgs e)
@@ -50,11 +54,24 @@ namespace MiTienda
 
         private void log_in_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=uspg.database.windows.net;Database=winforms-pos;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
-            _connection = new AzureSqlConnection(connectionString);
-          // EJECUCION DE QUERYS var Tabla =  _connection.ExecuteQuery ("SELECT * FROM Products")  ;
 
-            
+            string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
+
+            string query = "SELECT * FORM Products";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Conexión abierta exitosamente.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al abrir la conexión: {ex.Message}");
+
+                }
+            }
 
         }
 

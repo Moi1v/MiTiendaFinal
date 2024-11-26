@@ -46,17 +46,18 @@
             // 
             // txtTotalFactura
             // 
-            txtTotalFactura.Location = new Point(431, 73);
+            txtTotalFactura.Location = new Point(377, 55);
+            txtTotalFactura.Margin = new Padding(3, 2, 3, 2);
             txtTotalFactura.Name = "txtTotalFactura";
-            txtTotalFactura.Size = new Size(125, 27);
+            txtTotalFactura.Size = new Size(110, 23);
             txtTotalFactura.TabIndex = 26;
             // 
             // lblTotalFactura
             // 
             lblTotalFactura.AutoSize = true;
-            lblTotalFactura.Location = new Point(431, 51);
+            lblTotalFactura.Location = new Point(377, 38);
             lblTotalFactura.Name = "lblTotalFactura";
-            lblTotalFactura.Size = new Size(136, 20);
+            lblTotalFactura.Size = new Size(106, 15);
             lblTotalFactura.TabIndex = 25;
             lblTotalFactura.Text = "Total de la Compra";
             // 
@@ -64,10 +65,11 @@
             // 
             dgvFactura.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFactura.Columns.AddRange(new DataGridViewColumn[] { nombre, precio, cantidad, Subtotal });
-            dgvFactura.Location = new Point(39, 131);
+            dgvFactura.Location = new Point(34, 98);
+            dgvFactura.Margin = new Padding(3, 2, 3, 2);
             dgvFactura.Name = "dgvFactura";
             dgvFactura.RowHeadersWidth = 51;
-            dgvFactura.Size = new Size(578, 269);
+            dgvFactura.Size = new Size(506, 202);
             dgvFactura.TabIndex = 24;
             // 
             // nombre
@@ -100,59 +102,63 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(639, 371);
+            btnCancelar.Location = new Point(559, 278);
+            btnCancelar.Margin = new Padding(3, 2, 3, 2);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(123, 29);
+            btnCancelar.Size = new Size(108, 22);
             btnCancelar.TabIndex = 23;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             // 
             // btnConfirmarVenta
             // 
-            btnConfirmarVenta.Location = new Point(639, 335);
+            btnConfirmarVenta.Location = new Point(559, 251);
+            btnConfirmarVenta.Margin = new Padding(3, 2, 3, 2);
             btnConfirmarVenta.Name = "btnConfirmarVenta";
-            btnConfirmarVenta.Size = new Size(123, 29);
+            btnConfirmarVenta.Size = new Size(108, 22);
             btnConfirmarVenta.TabIndex = 22;
             btnConfirmarVenta.Text = "Confirmar Venta";
             btnConfirmarVenta.UseVisualStyleBackColor = true;
             // 
             // txtNombreCliente
             // 
-            txtNombreCliente.Location = new Point(211, 73);
+            txtNombreCliente.Location = new Point(185, 55);
+            txtNombreCliente.Margin = new Padding(3, 2, 3, 2);
             txtNombreCliente.Name = "txtNombreCliente";
-            txtNombreCliente.Size = new Size(125, 27);
+            txtNombreCliente.Size = new Size(110, 23);
             txtNombreCliente.TabIndex = 21;
             // 
             // lblNombreCliente
             // 
             lblNombreCliente.AutoSize = true;
-            lblNombreCliente.Location = new Point(211, 51);
+            lblNombreCliente.Location = new Point(185, 38);
             lblNombreCliente.Name = "lblNombreCliente";
-            lblNombreCliente.Size = new Size(139, 20);
+            lblNombreCliente.Size = new Size(110, 15);
             lblNombreCliente.TabIndex = 20;
             lblNombreCliente.Text = "Nombre del Cliente";
             // 
             // txtNIT
             // 
-            txtNIT.Location = new Point(39, 73);
+            txtNIT.Location = new Point(34, 55);
+            txtNIT.Margin = new Padding(3, 2, 3, 2);
             txtNIT.Name = "txtNIT";
-            txtNIT.Size = new Size(125, 27);
+            txtNIT.Size = new Size(110, 23);
             txtNIT.TabIndex = 19;
             // 
             // lblNIT
             // 
             lblNIT.AutoSize = true;
-            lblNIT.Location = new Point(39, 51);
+            lblNIT.Location = new Point(34, 38);
             lblNIT.Name = "lblNIT";
-            lblNIT.Size = new Size(107, 20);
+            lblNIT.Size = new Size(84, 15);
             lblNIT.TabIndex = 18;
             lblNIT.Text = "NIT del Cliente";
             // 
             // Form5Facturacioncs
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(768, 446);
             Controls.Add(txtTotalFactura);
             Controls.Add(lblTotalFactura);
             Controls.Add(dgvFactura);
@@ -162,8 +168,9 @@
             Controls.Add(lblNombreCliente);
             Controls.Add(txtNIT);
             Controls.Add(lblNIT);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form5Facturacioncs";
-            Text = "  ";
+            Text = "  Clientes";
             ((System.ComponentModel.ISupportInitialize)dgvFactura).EndInit();
             ResumeLayout(false);
             PerformLayout();

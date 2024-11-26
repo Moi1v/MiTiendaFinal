@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace MiTienda
 {
@@ -94,20 +95,34 @@ namespace MiTienda
 
         private void Btnconsult_Click(object sender, EventArgs e)
         {
-            string codigo = TxtCode.Text;  
-            Producto producto = productos.Find(p => p.Codigo == codigo);
 
-            if (producto != null)
+            string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
+            
+            string query = "SELECT * FROM Products";
+
+            using (SqlConnection conn = new SqlConnection(connectionString)) 
             {
-                txtName.Text = producto.Nombre;
-                txtDescription.Text = producto.Descripcion;
-                txtPrice.Text = producto.Precio.ToString();
-                txtStock.Text = producto.Cantidad.ToString();
+                try 
+                {
+                    conn.Open();
+                   
+                    SqlCommand command = new SqlCommand(query, conn);
+
+                    using (SqlDataReader reader = command.ExecuteReader()) 
+                    {
+                        while (reader.Read()) 
+                        {
+                            MessageBox.Show($"{reader[ProductName]}, {reader[1]}, {reader[2]}, {reader[3]}");
+                            
+                        }
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show($"Error{ex.Message}");
+                }
             }
-            else
-            {
-                MessageBox.Show("Producto no encontrado.");
-            }
+
         }
 
         public class Producto

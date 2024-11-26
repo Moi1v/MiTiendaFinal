@@ -131,5 +131,10 @@ namespace MiTienda
                 MessageBox.Show("Producto no encontrado.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void btnBuscar_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

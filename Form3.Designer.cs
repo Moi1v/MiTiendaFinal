@@ -200,6 +200,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(879, 562);
+            Controls.Add(dgvEmpleados);
             Controls.Add(button1);
             Controls.Add(lblResumen);
             Controls.Add(label4);
@@ -212,7 +213,6 @@
             Controls.Add(btnBuscar);
             Controls.Add(cmbSucursal);
             Controls.Add(dtpMes);
-            Controls.Add(dgvEmpleados);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Employee_management";
             Text = "Employee management";
