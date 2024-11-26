@@ -27,7 +27,38 @@ namespace MiTienda
             lblTotal.Text = "Q" + total.ToString("F2");
         }
 
-        private void btnAgregarCarrito_Click(object sender, EventArgs e)
+
+
+
+
+        private void btnBuscar_Click_1(object sender, EventArgs e)
+        {
+            string filtro = txtBuscarProducto.Text.Trim().ToLower();
+            bool encontrado = false;
+
+            foreach (DataGridViewRow row in dgvProductos.Rows)
+            {
+                if (row.Cells["nombreProducto"].Value != null)
+                {
+                    string nombreProducto = row.Cells["nombreProducto"].Value.ToString().ToLower();
+
+                    if (nombreProducto.Contains(filtro))
+                    {
+                        row.Selected = true;
+                        dgvProductos.FirstDisplayedScrollingRowIndex = row.Index;
+                        encontrado = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!encontrado)
+            {
+                MessageBox.Show("Producto no encontrado.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnAgregarCarrito_Click_1(object sender, EventArgs e)
         {
             if (dgvProductos.SelectedRows.Count > 0)
             {
@@ -46,7 +77,7 @@ namespace MiTienda
             }
         }
 
-        private void btnQuitarCarrito_Click(object sender, EventArgs e)
+        private void btnQuitarCarrito_Click_1(object sender, EventArgs e)
         {
             if (dgvCarrito.SelectedRows.Count > 0)
             {
@@ -72,7 +103,7 @@ namespace MiTienda
             }
         }
 
-        private void btnFinalizarVenta_Click(object sender, EventArgs e)
+        private void btnFinalizarVenta_Click_1(object sender, EventArgs e)
         {
             bool datosCompletos = true;
 
@@ -103,38 +134,6 @@ namespace MiTienda
 
                 facturacionForm.Show();
             }
-        }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            string filtro = txtBuscarProducto.Text.Trim().ToLower();
-            bool encontrado = false;
-
-            foreach (DataGridViewRow row in dgvProductos.Rows)
-            {
-                if (row.Cells["nombreProducto"].Value != null)
-                {
-                    string nombreProducto = row.Cells["nombreProducto"].Value.ToString().ToLower();
-
-                    if (nombreProducto.Contains(filtro))
-                    {
-                        row.Selected = true;
-                        dgvProductos.FirstDisplayedScrollingRowIndex = row.Index;
-                        encontrado = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!encontrado)
-            {
-                MessageBox.Show("Producto no encontrado.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void btnBuscar_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

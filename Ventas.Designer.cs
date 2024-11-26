@@ -52,10 +52,9 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(149, 39);
-            btnBuscar.Margin = new Padding(3, 2, 3, 2);
+            btnBuscar.Location = new Point(170, 52);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(82, 22);
+            btnBuscar.Size = new Size(94, 29);
             btnBuscar.TabIndex = 29;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -64,48 +63,48 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(579, 434);
+            label1.Location = new Point(662, 579);
             label1.Name = "label1";
-            label1.Size = new Size(74, 15);
+            label1.Size = new Size(93, 20);
             label1.TabIndex = 28;
             label1.Text = "Monto Total:";
             // 
             // btnFinalizarVenta
             // 
-            btnFinalizarVenta.Location = new Point(836, 457);
-            btnFinalizarVenta.Margin = new Padding(3, 2, 3, 2);
+            btnFinalizarVenta.Location = new Point(955, 609);
             btnFinalizarVenta.Name = "btnFinalizarVenta";
-            btnFinalizarVenta.Size = new Size(120, 22);
+            btnFinalizarVenta.Size = new Size(137, 29);
             btnFinalizarVenta.TabIndex = 27;
             btnFinalizarVenta.Text = "Finalizar Venta";
             btnFinalizarVenta.UseVisualStyleBackColor = true;
+            btnFinalizarVenta.Click += btnFinalizarVenta_Click_1;
             // 
             // btnQuitarCarrito
             // 
-            btnQuitarCarrito.Location = new Point(836, 430);
-            btnQuitarCarrito.Margin = new Padding(3, 2, 3, 2);
+            btnQuitarCarrito.Location = new Point(955, 573);
             btnQuitarCarrito.Name = "btnQuitarCarrito";
-            btnQuitarCarrito.Size = new Size(120, 22);
+            btnQuitarCarrito.Size = new Size(137, 29);
             btnQuitarCarrito.TabIndex = 26;
             btnQuitarCarrito.Text = "Quitar del Carrito";
             btnQuitarCarrito.UseVisualStyleBackColor = true;
+            btnQuitarCarrito.Click += btnQuitarCarrito_Click_1;
             // 
             // btnAgregarCarrito
             // 
-            btnAgregarCarrito.Location = new Point(836, 404);
-            btnAgregarCarrito.Margin = new Padding(3, 2, 3, 2);
+            btnAgregarCarrito.Location = new Point(955, 539);
             btnAgregarCarrito.Name = "btnAgregarCarrito";
-            btnAgregarCarrito.Size = new Size(120, 22);
+            btnAgregarCarrito.Size = new Size(137, 29);
             btnAgregarCarrito.TabIndex = 25;
             btnAgregarCarrito.Text = "Agregar al Carrito";
             btnAgregarCarrito.UseVisualStyleBackColor = true;
+            btnAgregarCarrito.Click += btnAgregarCarrito_Click_1;
             // 
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(579, 457);
+            lblTotal.Location = new Point(662, 609);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(0, 15);
+            lblTotal.Size = new Size(0, 20);
             lblTotal.TabIndex = 24;
             // 
             // dgvCarrito
@@ -113,13 +112,12 @@
             dgvCarrito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCarrito.Columns.AddRange(new DataGridViewColumn[] { ProductoCarrito, CantidadCarrito, Precio_UnitarioCarrito, SubtotalCarrito });
-            dgvCarrito.Location = new Point(513, 64);
-            dgvCarrito.Margin = new Padding(3, 2, 3, 2);
+            dgvCarrito.Location = new Point(586, 85);
             dgvCarrito.Name = "dgvCarrito";
             dgvCarrito.ReadOnly = true;
             dgvCarrito.RowHeadersWidth = 51;
             dgvCarrito.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCarrito.Size = new Size(444, 335);
+            dgvCarrito.Size = new Size(507, 447);
             dgvCarrito.TabIndex = 23;
             // 
             // ProductoCarrito
@@ -154,11 +152,10 @@
             // 
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { Producto, Cantidad, Precio_Unitario, Subtotal });
-            dgvProductos.Location = new Point(10, 64);
-            dgvProductos.Margin = new Padding(3, 2, 3, 2);
+            dgvProductos.Location = new Point(11, 85);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.RowHeadersWidth = 51;
-            dgvProductos.Size = new Size(484, 416);
+            dgvProductos.Size = new Size(553, 555);
             dgvProductos.TabIndex = 22;
             // 
             // Producto
@@ -192,25 +189,24 @@
             // lblBuscarProducto
             // 
             lblBuscarProducto.AutoSize = true;
-            lblBuscarProducto.Location = new Point(10, 14);
+            lblBuscarProducto.Location = new Point(11, 19);
             lblBuscarProducto.Name = "lblBuscarProducto";
-            lblBuscarProducto.Size = new Size(94, 15);
+            lblBuscarProducto.Size = new Size(116, 20);
             lblBuscarProducto.TabIndex = 21;
             lblBuscarProducto.Text = "Buscar Producto";
             // 
             // txtBuscarProducto
             // 
-            txtBuscarProducto.Location = new Point(10, 40);
-            txtBuscarProducto.Margin = new Padding(3, 2, 3, 2);
+            txtBuscarProducto.Location = new Point(11, 53);
             txtBuscarProducto.Name = "txtBuscarProducto";
-            txtBuscarProducto.Size = new Size(110, 23);
+            txtBuscarProducto.Size = new Size(125, 27);
             txtBuscarProducto.TabIndex = 20;
             // 
             // Ventas
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(978, 505);
+            ClientSize = new Size(1118, 673);
             Controls.Add(btnBuscar);
             Controls.Add(label1);
             Controls.Add(btnFinalizarVenta);
@@ -221,7 +217,6 @@
             Controls.Add(dgvProductos);
             Controls.Add(lblBuscarProducto);
             Controls.Add(txtBuscarProducto);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Ventas";
             Text = "Ventas";
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
