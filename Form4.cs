@@ -1,7 +1,5 @@
-﻿using MiTienda.Clase__Temporal_;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,7 +12,8 @@ namespace MiTienda
 {
     public partial class Form4 : Form
     {
-        private List<Producto> productos = new List<Producto>();
+        private string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
+
         public Form4()
         {
             InitializeComponent();
@@ -28,121 +27,164 @@ namespace MiTienda
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            Producto nuevoProducto = new Producto
+      
+            string query = "INSERT INTO Products (Codigo, Nombre, Descripcion, Precio, Cantidad) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @Cantidad)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                Codigo = TxtCode.Text,
-                Nombre = txtName.Text,
-                Descripcion = txtDescription.Text,
-                Precio = Convert.ToDecimal(txtPrice.Text),
-                Cantidad = Convert.ToInt32(txtStock.Text),
-            };
+                try
+                {
+                    connection.Open();
 
-            productos.Add(nuevoProducto);
-            MessageBox.Show("Producto guardado temporalmente.");
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
+                        command.Parameters.AddWithValue("@Nombre", txtName.Text);
+                        command.Parameters.AddWithValue("@Descripcion", txtDescription.Text);
+                        command.Parameters.AddWithValue("@Precio", Convert.ToDecimal(txtPrice.Text));
+                        command.Parameters.AddWithValue("@Cantidad", Convert.ToInt32(txtStock.Text));
 
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Producto guardado correctamente en la base de datos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al guardar el producto: {ex.Message}");
+                }
+            }
 
+            LimpiarCampos();
+            ActualizarDataGridView();
+        }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+         
+            string query = "UPDATE Products SET Nombre = @Nombre, Descripcion = @Descripcion, Precio = @Precio, Cantidad = @Cantidad WHERE Codigo = @Codigo";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
+                        command.Parameters.AddWithValue("@Nombre", txtName.Text);
+                        command.Parameters.AddWithValue("@Descripcion", txtDescription.Text);
+                        command.Parameters.AddWithValue("@Precio", Convert.ToDecimal(txtPrice.Text));
+                        command.Parameters.AddWithValue("@Cantidad", Convert.ToInt32(txtStock.Text));
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Producto actualizado correctamente en la base de datos.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Producto no encontrado.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al actualizar el producto: {ex.Message}");
+                }
+            }
+
+            LimpiarCampos();
+            ActualizarDataGridView();
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+         
+            string query = "DELETE FROM Products WHERE Codigo = @Codigo";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Producto eliminado correctamente de la base de datos.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Producto no encontrado.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar el producto: {ex.Message}");
+                }
+            }
+
+            LimpiarCampos();
+            ActualizarDataGridView();
+        }
+
+        private void Btnconsult_Click(object sender, EventArgs e)
+        {
+            
+            string query = "SELECT * FROM Products";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            dataGridViewProductos.Rows.Clear();
+
+                            while (reader.Read())
+                            {
+                                dataGridViewProductos.Rows.Add(
+                                    reader["Codigo"],
+                                    reader["Nombre"],
+                                    reader["Descripcion"],
+                                    reader["Precio"],
+                                    reader["Cantidad"]
+                                );
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al consultar los productos: {ex.Message}");
+                }
+            }
+        }
+
+        private void LimpiarCampos()
+        {
+            TxtCode.Clear();
             txtName.Clear();
             txtDescription.Clear();
             txtPrice.Clear();
             txtStock.Clear();
-            TxtCode.Clear();
-
-            RefreshDataGridView();
         }
 
-
-
-        private void BtnRefresh_Click(object sender, EventArgs e)
+        private void ActualizarDataGridView()
         {
-            string codigo = TxtCode.Text;
-            Producto producto = productos.Find(p => p.Codigo == codigo);
-
-            if (producto != null)
-            {
-                producto.Nombre = txtName.Text;
-                producto.Descripcion = txtDescription.Text;
-                producto.Precio = Convert.ToDecimal(txtPrice.Text);
-                producto.Cantidad = Convert.ToInt32(txtStock.Text);
-                MessageBox.Show("Producto actualizado temporalmente.");
-
-                RefreshDataGridView();
-            }
-            else
-            {
-                MessageBox.Show("Producto no encontrado.");
-            }
+            Btnconsult_Click(null, null); 
         }
-
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            string codigo = TxtCode.Text;
-            Producto producto = productos.Find(p => p.Codigo == codigo);
-
-            if (producto != null)
-            {
-                productos.Remove(producto);
-                MessageBox.Show("Producto eliminado temporalmente.");
-
-                RefreshDataGridView();
-            }
-            else
-            {
-                MessageBox.Show("Producto no encontrado.");
-            }
-        }
-
-
-        private void Btnconsult_Click(object sender, EventArgs e)
-        {
-
-            string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
-            
-            string query = "SELECT * FROM Products";
-
-            using (SqlConnection conn = new SqlConnection(connectionString)) 
-            {
-                try 
-                {
-                    conn.Open();
-                   
-                    SqlCommand command = new SqlCommand(query, conn);
-
-                    using (SqlDataReader reader = command.ExecuteReader()) 
-                    {
-                        while (reader.Read()) 
-                        {
-                            MessageBox.Show($"{reader[ProductName]}, {reader[1]}, {reader[2]}, {reader[3]}");
-                            
-                        }
-                    }
-                }
-                catch (Exception ex) 
-                {
-                    MessageBox.Show($"Error{ex.Message}");
-                }
-            }
-
-        }
-
-        public class Producto
-        {
-            public string Codigo { get; set; }
-            public string Nombre { get; set; }
-            public string Descripcion { get; set; }
-            public decimal Precio { get; set; }
-            public int Cantidad { get; set; }
-        }
-
-        private void RefreshDataGridView()
-        {
-            dataGridViewProductos.Rows.Clear(); 
-            foreach (Producto producto in productos)
-            {
-                dataGridViewProductos.Rows.Add(producto.Codigo, producto.Nombre, producto.Descripcion, producto.Precio, producto.Cantidad);
-            }
-        }
-
     }
 }
-

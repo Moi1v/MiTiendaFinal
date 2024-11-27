@@ -16,34 +16,58 @@ namespace MiTienda
         {
 
 
-            string usuario = textBox1.Text;
-            string contrasena = textBox2.Text;
+         
+            string usuario = textBox1.Text.Trim();
+            string contrasena = textBox2.Text.Trim();
 
+          
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
-            string usuarioValido = "usuarioEjemplo";
-            string contrasenaValida = "contrasenaEjemplo";
+           
+            string query = "SELECT COUNT(1) FROM Usuarios WHERE Usuario = @Usuario AND Contrasena = @Contrasena";
 
-
-            if (usuario == usuarioValido && contrasena == contrasenaValida)
+            try
             {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                 
+                    connection.Open();
 
-                Menu designedForm = new Menu();
-                designedForm.Show();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+            
+                        command.Parameters.AddWithValue("@Usuario", usuario);
+                        command.Parameters.AddWithValue("@Contrasena", contrasena);
 
-                textBox1.Clear();
-                textBox2.Clear();
+                        int result = Convert.ToInt32(command.ExecuteScalar());
 
-                this.Hide();
+                        if (result == 1)
+                        {
+                        
+                            Menu designedForm = new Menu();
+                            designedForm.Show();
+
+                            textBox1.Clear();
+                            textBox2.Clear();
+
+                            this.Hide();
+                        }
+                        else
+                        {
+                  
+                            MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            textBox1.Clear();
+                            textBox2.Clear();
+                        }
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                textBox1.Clear();
-                textBox2.Clear();
+         
+                MessageBox.Show($"Error al validar las credenciales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
 
         }
 
@@ -54,25 +78,6 @@ namespace MiTienda
 
         private void log_in_Load(object sender, EventArgs e)
         {
-
-            string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
-
-            string query = "SELECT * FORM Products";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    MessageBox.Show("Conexión abierta exitosamente.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al abrir la conexión: {ex.Message}");
-
-                }
-            }
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -82,8 +87,6 @@ namespace MiTienda
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            FormRegistro formRegistro = new FormRegistro();
-            formRegistro.ShowDialog(); 
         }
 
     }
