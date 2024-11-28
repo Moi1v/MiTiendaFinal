@@ -28,149 +28,93 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtTotalFactura = new TextBox();
-            lblTotalFactura = new Label();
             dgvFactura = new DataGridView();
-            nombre = new DataGridViewTextBoxColumn();
-            precio = new DataGridViewTextBoxColumn();
-            cantidad = new DataGridViewTextBoxColumn();
-            Subtotal = new DataGridViewTextBoxColumn();
-            btnCancelar = new Button();
+            nombreFactura = new DataGridViewTextBoxColumn();
+            precioUnitarioFactura = new DataGridViewTextBoxColumn();
+            cantidadFactura = new DataGridViewTextBoxColumn();
+            subtotalFactura = new DataGridViewTextBoxColumn();
+            lblTotalFactura = new Label();
             btnConfirmarVenta = new Button();
-            txtNombreCliente = new TextBox();
-            lblNombreCliente = new Label();
-            txtNIT = new TextBox();
-            lblNIT = new Label();
+            btnCancelarVenta = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvFactura).BeginInit();
             SuspendLayout();
-            // 
-            // txtTotalFactura
-            // 
-            txtTotalFactura.Location = new Point(377, 55);
-            txtTotalFactura.Margin = new Padding(3, 2, 3, 2);
-            txtTotalFactura.Name = "txtTotalFactura";
-            txtTotalFactura.Size = new Size(110, 23);
-            txtTotalFactura.TabIndex = 26;
-            // 
-            // lblTotalFactura
-            // 
-            lblTotalFactura.AutoSize = true;
-            lblTotalFactura.Location = new Point(377, 38);
-            lblTotalFactura.Name = "lblTotalFactura";
-            lblTotalFactura.Size = new Size(106, 15);
-            lblTotalFactura.TabIndex = 25;
-            lblTotalFactura.Text = "Total de la Compra";
             // 
             // dgvFactura
             // 
             dgvFactura.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvFactura.Columns.AddRange(new DataGridViewColumn[] { nombre, precio, cantidad, Subtotal });
-            dgvFactura.Location = new Point(34, 98);
-            dgvFactura.Margin = new Padding(3, 2, 3, 2);
+            dgvFactura.Columns.AddRange(new DataGridViewColumn[] { nombreFactura, precioUnitarioFactura, cantidadFactura, subtotalFactura });
+            dgvFactura.Location = new Point(31, 58);
             dgvFactura.Name = "dgvFactura";
             dgvFactura.RowHeadersWidth = 51;
-            dgvFactura.Size = new Size(506, 202);
-            dgvFactura.TabIndex = 24;
+            dgvFactura.Size = new Size(553, 392);
+            dgvFactura.TabIndex = 0;
             // 
-            // nombre
+            // nombreFactura
             // 
-            nombre.HeaderText = "Producto";
-            nombre.MinimumWidth = 6;
-            nombre.Name = "nombre";
-            nombre.Width = 125;
+            nombreFactura.HeaderText = "Producto";
+            nombreFactura.MinimumWidth = 6;
+            nombreFactura.Name = "nombreFactura";
+            nombreFactura.Width = 125;
             // 
-            // precio
+            // precioUnitarioFactura
             // 
-            precio.HeaderText = "Cantidad";
-            precio.MinimumWidth = 6;
-            precio.Name = "precio";
-            precio.Width = 125;
+            precioUnitarioFactura.HeaderText = "Precio Unitario";
+            precioUnitarioFactura.MinimumWidth = 6;
+            precioUnitarioFactura.Name = "precioUnitarioFactura";
+            precioUnitarioFactura.Width = 125;
             // 
-            // cantidad
+            // cantidadFactura
             // 
-            cantidad.HeaderText = "Precio Unitario";
-            cantidad.MinimumWidth = 6;
-            cantidad.Name = "cantidad";
-            cantidad.Width = 125;
+            cantidadFactura.HeaderText = "Cantidad";
+            cantidadFactura.MinimumWidth = 6;
+            cantidadFactura.Name = "cantidadFactura";
+            cantidadFactura.Width = 125;
             // 
-            // Subtotal
+            // subtotalFactura
             // 
-            Subtotal.HeaderText = "Subtotal";
-            Subtotal.MinimumWidth = 6;
-            Subtotal.Name = "Subtotal";
-            Subtotal.Width = 125;
+            subtotalFactura.HeaderText = "Subtotal";
+            subtotalFactura.MinimumWidth = 6;
+            subtotalFactura.Name = "subtotalFactura";
+            subtotalFactura.Width = 125;
             // 
-            // btnCancelar
+            // lblTotalFactura
             // 
-            btnCancelar.Location = new Point(559, 278);
-            btnCancelar.Margin = new Padding(3, 2, 3, 2);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(108, 22);
-            btnCancelar.TabIndex = 23;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
+            lblTotalFactura.AutoSize = true;
+            lblTotalFactura.Location = new Point(327, 499);
+            lblTotalFactura.Name = "lblTotalFactura";
+            lblTotalFactura.Size = new Size(87, 20);
+            lblTotalFactura.TabIndex = 1;
+            lblTotalFactura.Text = "Total: Q0.00";
             // 
             // btnConfirmarVenta
             // 
-            btnConfirmarVenta.Location = new Point(559, 251);
-            btnConfirmarVenta.Margin = new Padding(3, 2, 3, 2);
+            btnConfirmarVenta.Location = new Point(460, 490);
             btnConfirmarVenta.Name = "btnConfirmarVenta";
-            btnConfirmarVenta.Size = new Size(108, 22);
-            btnConfirmarVenta.TabIndex = 22;
+            btnConfirmarVenta.Size = new Size(124, 29);
+            btnConfirmarVenta.TabIndex = 2;
             btnConfirmarVenta.Text = "Confirmar Venta";
             btnConfirmarVenta.UseVisualStyleBackColor = true;
             // 
-            // txtNombreCliente
+            // btnCancelarVenta
             // 
-            txtNombreCliente.Location = new Point(185, 55);
-            txtNombreCliente.Margin = new Padding(3, 2, 3, 2);
-            txtNombreCliente.Name = "txtNombreCliente";
-            txtNombreCliente.Size = new Size(110, 23);
-            txtNombreCliente.TabIndex = 21;
-            // 
-            // lblNombreCliente
-            // 
-            lblNombreCliente.AutoSize = true;
-            lblNombreCliente.Location = new Point(185, 38);
-            lblNombreCliente.Name = "lblNombreCliente";
-            lblNombreCliente.Size = new Size(110, 15);
-            lblNombreCliente.TabIndex = 20;
-            lblNombreCliente.Text = "Nombre del Cliente";
-            // 
-            // txtNIT
-            // 
-            txtNIT.Location = new Point(34, 55);
-            txtNIT.Margin = new Padding(3, 2, 3, 2);
-            txtNIT.Name = "txtNIT";
-            txtNIT.Size = new Size(110, 23);
-            txtNIT.TabIndex = 19;
-            // 
-            // lblNIT
-            // 
-            lblNIT.AutoSize = true;
-            lblNIT.Location = new Point(34, 38);
-            lblNIT.Name = "lblNIT";
-            lblNIT.Size = new Size(84, 15);
-            lblNIT.TabIndex = 18;
-            lblNIT.Text = "NIT del Cliente";
+            btnCancelarVenta.Location = new Point(460, 525);
+            btnCancelarVenta.Name = "btnCancelarVenta";
+            btnCancelarVenta.Size = new Size(124, 29);
+            btnCancelarVenta.TabIndex = 3;
+            btnCancelarVenta.Text = "Cancelar";
+            btnCancelarVenta.UseVisualStyleBackColor = true;
             // 
             // Form5Facturacioncs
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(768, 446);
-            Controls.Add(txtTotalFactura);
+            ClientSize = new Size(616, 584);
+            Controls.Add(btnCancelarVenta);
+            Controls.Add(btnConfirmarVenta);
             Controls.Add(lblTotalFactura);
             Controls.Add(dgvFactura);
-            Controls.Add(btnCancelar);
-            Controls.Add(btnConfirmarVenta);
-            Controls.Add(txtNombreCliente);
-            Controls.Add(lblNombreCliente);
-            Controls.Add(txtNIT);
-            Controls.Add(lblNIT);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Form5Facturacioncs";
-            Text = "  Clientes";
+            Text = "Form5Facturacioncs";
             ((System.ComponentModel.ISupportInitialize)dgvFactura).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -178,18 +122,13 @@
 
         #endregion
 
-        private TextBox txtTotalFactura;
-        private Label lblTotalFactura;
         private DataGridView dgvFactura;
-        private DataGridViewTextBoxColumn nombre;
-        private DataGridViewTextBoxColumn precio;
-        private DataGridViewTextBoxColumn cantidad;
-        private DataGridViewTextBoxColumn Subtotal;
-        private Button btnCancelar;
+        private DataGridViewTextBoxColumn nombreFactura;
+        private DataGridViewTextBoxColumn precioUnitarioFactura;
+        private DataGridViewTextBoxColumn cantidadFactura;
+        private DataGridViewTextBoxColumn subtotalFactura;
+        private Label lblTotalFactura;
         private Button btnConfirmarVenta;
-        private TextBox txtNombreCliente;
-        private Label lblNombreCliente;
-        private TextBox txtNIT;
-        private Label lblNIT;
+        private Button btnCancelarVenta;
     }
 }

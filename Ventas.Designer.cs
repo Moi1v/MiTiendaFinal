@@ -28,222 +28,195 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnBuscar = new Button();
-            label1 = new Label();
-            btnFinalizarVenta = new Button();
-            btnQuitarCarrito = new Button();
-            btnAgregarCarrito = new Button();
-            lblTotal = new Label();
-            dgvCarrito = new DataGridView();
-            ProductoCarrito = new DataGridViewTextBoxColumn();
-            CantidadCarrito = new DataGridViewTextBoxColumn();
-            Precio_UnitarioCarrito = new DataGridViewTextBoxColumn();
-            SubtotalCarrito = new DataGridViewTextBoxColumn();
             dgvProductos = new DataGridView();
-            Producto = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            Precio_Unitario = new DataGridViewTextBoxColumn();
-            Subtotal = new DataGridViewTextBoxColumn();
-            lblBuscarProducto = new Label();
+            productoVentas = new DataGridViewTextBoxColumn();
+            precioVentas = new DataGridViewTextBoxColumn();
+            stockVentas = new DataGridViewTextBoxColumn();
+            dgvCarrito = new DataGridView();
+            nombreCarrito = new DataGridViewTextBoxColumn();
+            precioUnitarioCarrito = new DataGridViewTextBoxColumn();
+            cantidadCarrito = new DataGridViewTextBoxColumn();
+            subtotalCarrito = new DataGridViewTextBoxColumn();
             txtBuscarProducto = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
+            btnBuscarProducto = new Button();
+            btnAgregarCarrito = new Button();
+            btnQuitarCarrito = new Button();
+            btnFinalizarVenta = new Button();
+            lblTotal = new Label();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
             SuspendLayout();
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.Location = new Point(170, 52);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(94, 29);
-            btnBuscar.TabIndex = 29;
-            btnBuscar.Text = "Buscar";
-            btnBuscar.UseVisualStyleBackColor = true;
-            btnBuscar.Click += btnBuscar_Click_1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(662, 579);
-            label1.Name = "label1";
-            label1.Size = new Size(93, 20);
-            label1.TabIndex = 28;
-            label1.Text = "Monto Total:";
-            // 
-            // btnFinalizarVenta
-            // 
-            btnFinalizarVenta.Location = new Point(955, 609);
-            btnFinalizarVenta.Name = "btnFinalizarVenta";
-            btnFinalizarVenta.Size = new Size(137, 29);
-            btnFinalizarVenta.TabIndex = 27;
-            btnFinalizarVenta.Text = "Finalizar Venta";
-            btnFinalizarVenta.UseVisualStyleBackColor = true;
-            btnFinalizarVenta.Click += btnFinalizarVenta_Click_1;
-            // 
-            // btnQuitarCarrito
-            // 
-            btnQuitarCarrito.Location = new Point(955, 573);
-            btnQuitarCarrito.Name = "btnQuitarCarrito";
-            btnQuitarCarrito.Size = new Size(137, 29);
-            btnQuitarCarrito.TabIndex = 26;
-            btnQuitarCarrito.Text = "Quitar del Carrito";
-            btnQuitarCarrito.UseVisualStyleBackColor = true;
-            btnQuitarCarrito.Click += btnQuitarCarrito_Click_1;
-            // 
-            // btnAgregarCarrito
-            // 
-            btnAgregarCarrito.Location = new Point(955, 539);
-            btnAgregarCarrito.Name = "btnAgregarCarrito";
-            btnAgregarCarrito.Size = new Size(137, 29);
-            btnAgregarCarrito.TabIndex = 25;
-            btnAgregarCarrito.Text = "Agregar al Carrito";
-            btnAgregarCarrito.UseVisualStyleBackColor = true;
-            btnAgregarCarrito.Click += btnAgregarCarrito_Click_1;
-            // 
-            // lblTotal
-            // 
-            lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(662, 609);
-            lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(0, 20);
-            lblTotal.TabIndex = 24;
-            // 
-            // dgvCarrito
-            // 
-            dgvCarrito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCarrito.Columns.AddRange(new DataGridViewColumn[] { ProductoCarrito, CantidadCarrito, Precio_UnitarioCarrito, SubtotalCarrito });
-            dgvCarrito.Location = new Point(586, 85);
-            dgvCarrito.Name = "dgvCarrito";
-            dgvCarrito.ReadOnly = true;
-            dgvCarrito.RowHeadersWidth = 51;
-            dgvCarrito.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCarrito.Size = new Size(507, 447);
-            dgvCarrito.TabIndex = 23;
-            // 
-            // ProductoCarrito
-            // 
-            ProductoCarrito.HeaderText = "Producto ";
-            ProductoCarrito.MinimumWidth = 6;
-            ProductoCarrito.Name = "ProductoCarrito";
-            ProductoCarrito.ReadOnly = true;
-            // 
-            // CantidadCarrito
-            // 
-            CantidadCarrito.HeaderText = "Cantidad ";
-            CantidadCarrito.MinimumWidth = 6;
-            CantidadCarrito.Name = "CantidadCarrito";
-            CantidadCarrito.ReadOnly = true;
-            // 
-            // Precio_UnitarioCarrito
-            // 
-            Precio_UnitarioCarrito.HeaderText = "Precio Unitario";
-            Precio_UnitarioCarrito.MinimumWidth = 6;
-            Precio_UnitarioCarrito.Name = "Precio_UnitarioCarrito";
-            Precio_UnitarioCarrito.ReadOnly = true;
-            // 
-            // SubtotalCarrito
-            // 
-            SubtotalCarrito.HeaderText = "Subtotal";
-            SubtotalCarrito.MinimumWidth = 6;
-            SubtotalCarrito.Name = "SubtotalCarrito";
-            SubtotalCarrito.ReadOnly = true;
             // 
             // dgvProductos
             // 
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { Producto, Cantidad, Precio_Unitario, Subtotal });
-            dgvProductos.Location = new Point(11, 85);
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { productoVentas, precioVentas, stockVentas });
+            dgvProductos.Location = new Point(27, 111);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.RowHeadersWidth = 51;
-            dgvProductos.Size = new Size(553, 555);
-            dgvProductos.TabIndex = 22;
+            dgvProductos.Size = new Size(428, 436);
+            dgvProductos.TabIndex = 0;
             // 
-            // Producto
+            // productoVentas
             // 
-            Producto.HeaderText = "Producto";
-            Producto.MinimumWidth = 6;
-            Producto.Name = "Producto";
-            Producto.Width = 125;
+            productoVentas.HeaderText = "Productos";
+            productoVentas.MinimumWidth = 6;
+            productoVentas.Name = "productoVentas";
+            productoVentas.Width = 125;
             // 
-            // Cantidad
+            // precioVentas
             // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.MinimumWidth = 6;
-            Cantidad.Name = "Cantidad";
-            Cantidad.Width = 125;
+            precioVentas.HeaderText = "Precio";
+            precioVentas.MinimumWidth = 6;
+            precioVentas.Name = "precioVentas";
+            precioVentas.Width = 125;
             // 
-            // Precio_Unitario
+            // stockVentas
             // 
-            Precio_Unitario.HeaderText = "Precio Unitario";
-            Precio_Unitario.MinimumWidth = 6;
-            Precio_Unitario.Name = "Precio_Unitario";
-            Precio_Unitario.Width = 125;
+            stockVentas.HeaderText = "Stock";
+            stockVentas.MinimumWidth = 6;
+            stockVentas.Name = "stockVentas";
+            stockVentas.Width = 125;
             // 
-            // Subtotal
+            // dgvCarrito
             // 
-            Subtotal.HeaderText = "Subtotal";
-            Subtotal.MinimumWidth = 6;
-            Subtotal.Name = "Subtotal";
-            Subtotal.Width = 125;
+            dgvCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCarrito.Columns.AddRange(new DataGridViewColumn[] { nombreCarrito, precioUnitarioCarrito, cantidadCarrito, subtotalCarrito });
+            dgvCarrito.Location = new Point(485, 111);
+            dgvCarrito.Name = "dgvCarrito";
+            dgvCarrito.RowHeadersWidth = 51;
+            dgvCarrito.Size = new Size(553, 436);
+            dgvCarrito.TabIndex = 1;
             // 
-            // lblBuscarProducto
+            // nombreCarrito
             // 
-            lblBuscarProducto.AutoSize = true;
-            lblBuscarProducto.Location = new Point(11, 19);
-            lblBuscarProducto.Name = "lblBuscarProducto";
-            lblBuscarProducto.Size = new Size(116, 20);
-            lblBuscarProducto.TabIndex = 21;
-            lblBuscarProducto.Text = "Buscar Producto";
+            nombreCarrito.HeaderText = "Producto";
+            nombreCarrito.MinimumWidth = 6;
+            nombreCarrito.Name = "nombreCarrito";
+            nombreCarrito.Width = 125;
+            // 
+            // precioUnitarioCarrito
+            // 
+            precioUnitarioCarrito.HeaderText = "Precio Unitario";
+            precioUnitarioCarrito.MinimumWidth = 6;
+            precioUnitarioCarrito.Name = "precioUnitarioCarrito";
+            precioUnitarioCarrito.Width = 125;
+            // 
+            // cantidadCarrito
+            // 
+            cantidadCarrito.HeaderText = "Cantidad";
+            cantidadCarrito.MinimumWidth = 6;
+            cantidadCarrito.Name = "cantidadCarrito";
+            cantidadCarrito.Width = 125;
+            // 
+            // subtotalCarrito
+            // 
+            subtotalCarrito.HeaderText = "Subtotal";
+            subtotalCarrito.MinimumWidth = 6;
+            subtotalCarrito.Name = "subtotalCarrito";
+            subtotalCarrito.Width = 125;
             // 
             // txtBuscarProducto
             // 
-            txtBuscarProducto.Location = new Point(11, 53);
+            txtBuscarProducto.Location = new Point(27, 65);
             txtBuscarProducto.Name = "txtBuscarProducto";
             txtBuscarProducto.Size = new Size(125, 27);
-            txtBuscarProducto.TabIndex = 20;
+            txtBuscarProducto.TabIndex = 2;
+            // 
+            // btnBuscarProducto
+            // 
+            btnBuscarProducto.Location = new Point(902, 675);
+            btnBuscarProducto.Name = "btnBuscarProducto";
+            btnBuscarProducto.Size = new Size(136, 29);
+            btnBuscarProducto.TabIndex = 3;
+            btnBuscarProducto.Text = "Buscar";
+            btnBuscarProducto.UseVisualStyleBackColor = true;
+            // 
+            // btnAgregarCarrito
+            // 
+            btnAgregarCarrito.Location = new Point(902, 570);
+            btnAgregarCarrito.Name = "btnAgregarCarrito";
+            btnAgregarCarrito.Size = new Size(136, 29);
+            btnAgregarCarrito.TabIndex = 4;
+            btnAgregarCarrito.Text = "Agregar al Carrito";
+            btnAgregarCarrito.UseVisualStyleBackColor = true;
+            // 
+            // btnQuitarCarrito
+            // 
+            btnQuitarCarrito.Location = new Point(902, 605);
+            btnQuitarCarrito.Name = "btnQuitarCarrito";
+            btnQuitarCarrito.Size = new Size(136, 29);
+            btnQuitarCarrito.TabIndex = 5;
+            btnQuitarCarrito.Text = "Quitar del Carrito";
+            btnQuitarCarrito.UseVisualStyleBackColor = true;
+            // 
+            // btnFinalizarVenta
+            // 
+            btnFinalizarVenta.Location = new Point(902, 640);
+            btnFinalizarVenta.Name = "btnFinalizarVenta";
+            btnFinalizarVenta.Size = new Size(136, 29);
+            btnFinalizarVenta.TabIndex = 6;
+            btnFinalizarVenta.Text = "Finalizar Venta";
+            btnFinalizarVenta.UseVisualStyleBackColor = true;
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Location = new Point(769, 574);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(87, 20);
+            lblTotal.TabIndex = 7;
+            lblTotal.Text = "Total: Q0.00";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(27, 33);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 20);
+            label1.TabIndex = 8;
+            label1.Text = "Buscar";
             // 
             // Ventas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1118, 673);
-            Controls.Add(btnBuscar);
+            ClientSize = new Size(1067, 726);
             Controls.Add(label1);
+            Controls.Add(lblTotal);
             Controls.Add(btnFinalizarVenta);
             Controls.Add(btnQuitarCarrito);
             Controls.Add(btnAgregarCarrito);
-            Controls.Add(lblTotal);
+            Controls.Add(btnBuscarProducto);
+            Controls.Add(txtBuscarProducto);
             Controls.Add(dgvCarrito);
             Controls.Add(dgvProductos);
-            Controls.Add(lblBuscarProducto);
-            Controls.Add(txtBuscarProducto);
             Name = "Ventas";
             Text = "Ventas";
-            ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button btnBuscar;
-        private Label label1;
-        private Button btnFinalizarVenta;
-        private Button btnQuitarCarrito;
-        private Button btnAgregarCarrito;
-        private Label lblTotal;
-        private DataGridView dgvCarrito;
-        private DataGridViewTextBoxColumn ProductoCarrito;
-        private DataGridViewTextBoxColumn CantidadCarrito;
-        private DataGridViewTextBoxColumn Precio_UnitarioCarrito;
-        private DataGridViewTextBoxColumn SubtotalCarrito;
         private DataGridView dgvProductos;
-        private DataGridViewTextBoxColumn Producto;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn Precio_Unitario;
-        private DataGridViewTextBoxColumn Subtotal;
-        private Label lblBuscarProducto;
+        private DataGridViewTextBoxColumn productoVentas;
+        private DataGridViewTextBoxColumn precioVentas;
+        private DataGridViewTextBoxColumn stockVentas;
+        private DataGridView dgvCarrito;
+        private DataGridViewTextBoxColumn nombreCarrito;
+        private DataGridViewTextBoxColumn precioUnitarioCarrito;
+        private DataGridViewTextBoxColumn cantidadCarrito;
+        private DataGridViewTextBoxColumn subtotalCarrito;
         private TextBox txtBuscarProducto;
+        private Button btnBuscarProducto;
+        private Button btnAgregarCarrito;
+        private Button btnQuitarCarrito;
+        private Button btnFinalizarVenta;
+        private Label lblTotal;
+        private Label label1;
     }
 }

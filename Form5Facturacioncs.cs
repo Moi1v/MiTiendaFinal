@@ -23,34 +23,22 @@ namespace MiTienda
             set { lblTotalFactura.Text = value; }
         }
 
+        public void AgregarProducto(string nombre, decimal precio, int cantidad, decimal subtotal)
+        {
+            dgvFactura.Rows.Add(nombre, precio, cantidad, subtotal);
+        }
+
         private void btnConfirmarVenta_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Venta confirmada con éxito.");
+            MessageBox.Show("Venta confirmada con éxito. ¡Gracias por su compra!");
             this.Close();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelarVenta_Click(object sender, EventArgs e)
         {
-            this.Close();
-        }
-
-        public void AgregarProducto(string Producto, decimal Precio_Unitario, int Cantidad, decimal Subtotal)
-        {
-            dgvFactura.Rows.Add(Producto, Precio_Unitario, Cantidad, Subtotal);
-        }
-
-        public void TransferirDatosCarrito(DataGridView dgvCarrito)
-        {
-            foreach (DataGridViewRow row in dgvCarrito.Rows)
+            if (MessageBox.Show("¿Está seguro de que desea cancelar la venta?", "Cancelar Venta", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if (!row.IsNewRow)
-                {
-                    int rowIndex = dgvFactura.Rows.Add();
-                    dgvFactura.Rows[rowIndex].Cells["nombre"].Value = row.Cells["ProductoCarrito"].Value;
-                    dgvFactura.Rows[rowIndex].Cells["precio"].Value = row.Cells["CantidadCarrito"].Value;
-                    dgvFactura.Rows[rowIndex].Cells["cantidad"].Value = row.Cells["Precio_UnitarioCarrito"].Value;
-                    dgvFactura.Rows[rowIndex].Cells["Subtotal"].Value = row.Cells["SubtotalCarrito"].Value;
-                }
+                this.Close();
             }
         }
     }
