@@ -51,6 +51,7 @@
             Cantidad = new DataGridViewTextBoxColumn();
             label6 = new Label();
             textBoxProductID = new TextBox();
+            BtnRegresar = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProductos).BeginInit();
             SuspendLayout();
             // 
@@ -236,11 +237,22 @@
             textBoxProductID.Size = new Size(100, 23);
             textBoxProductID.TabIndex = 16;
             // 
+            // BtnRegresar
+            // 
+            BtnRegresar.Location = new Point(390, 377);
+            BtnRegresar.Name = "BtnRegresar";
+            BtnRegresar.Size = new Size(95, 41);
+            BtnRegresar.TabIndex = 17;
+            BtnRegresar.Text = "Return";
+            BtnRegresar.UseVisualStyleBackColor = true;
+            BtnRegresar.Click += BtnRegresar_Click;
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 450);
+            Controls.Add(BtnRegresar);
             Controls.Add(textBoxProductID);
             Controls.Add(label6);
             Controls.Add(dataGridViewProductos);
@@ -290,5 +302,6 @@
         private DataGridViewTextBoxColumn Cantidad;
         private Label label6;
         private TextBox textBoxProductID;
+        private Button BtnRegresar;
     }
 }

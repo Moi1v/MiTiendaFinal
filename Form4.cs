@@ -17,25 +17,19 @@ namespace MiTienda
         public Form4()
         {
             InitializeComponent();
-            dataGridViewProductos.ColumnCount = 5;
-            dataGridViewProductos.Columns[0].Name = "Código";
-            dataGridViewProductos.Columns[1].Name = "Nombre";
-            dataGridViewProductos.Columns[2].Name = "Descripción";
-            dataGridViewProductos.Columns[3].Name = "Precio";
-            dataGridViewProductos.Columns[4].Name = "Cantidad";
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
 
-        
+
             string productCode = TxtCode.Text.Trim();
             string productName = txtName.Text.Trim();
             string productDescription = txtDescription.Text.Trim();
             decimal productPrice = decimal.Parse(txtPrice.Text.Trim());
             int productStock = int.Parse(txtStock.Text.Trim());
 
-        
+
             string query = "INSERT INTO Products (Code, Name, Description, Price, Stock ) " +
                            "VALUES (@Code, @Name, @Description, @Price, @Stock )";
 
@@ -47,18 +41,18 @@ namespace MiTienda
 
                     SqlCommand command = new SqlCommand(query, connection);
 
-               
+
                     command.Parameters.AddWithValue("@Code", productCode);
                     command.Parameters.AddWithValue("@Name", productName);
                     command.Parameters.AddWithValue("@Description", productDescription);
                     command.Parameters.AddWithValue("@Price", productPrice);
                     command.Parameters.AddWithValue("@Stock", productStock);
-    
 
-        
+
+
                     int rowsAffected = command.ExecuteNonQuery();
 
-    
+
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Producto agregado exitosamente.");
@@ -77,7 +71,7 @@ namespace MiTienda
 
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
-         
+
             string query = "UPDATE Products SET Name = @Name, Description = @Description, Price = @Price, Stock = @Stock WHERE Code = @Code";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -119,7 +113,7 @@ namespace MiTienda
         {
 
 
-            int productID = int.Parse(textBoxProductID.Text.Trim()); 
+            int productID = int.Parse(textBoxProductID.Text.Trim());
 
             string query = "DELETE FROM Products WHERE ProductID = @ProductID";
 
@@ -131,13 +125,13 @@ namespace MiTienda
 
                     SqlCommand command = new SqlCommand(query, connection);
 
-         
+
                     command.Parameters.AddWithValue("@ProductID", productID);
 
-                  
+
                     int rowsAffected = command.ExecuteNonQuery();
 
-              
+
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Producto eliminado exitosamente.");
@@ -160,7 +154,7 @@ namespace MiTienda
         private void Btnconsult_Click(object sender, EventArgs e)
         {
 
-    
+
             string query = "SELECT * FROM Products";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -187,6 +181,13 @@ namespace MiTienda
             }
 
         }
+
+        private void BtnRegresar_Click(object sender, EventArgs e)
+        {
+            Menu designedForm = new Menu();
+            designedForm.Show();
+            this.Hide();
+        }
     }
- }
+}
 
