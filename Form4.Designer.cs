@@ -49,13 +49,15 @@
             Descripcion = new DataGridViewTextBoxColumn();
             Precio = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
+            label6 = new Label();
+            textBoxProductID = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProductos).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(24, 26);
+            label1.Location = new Point(27, 64);
             label1.Name = "label1";
             label1.Size = new Size(46, 15);
             label1.TabIndex = 0;
@@ -64,7 +66,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(24, 51);
+            label2.Location = new Point(27, 89);
             label2.Name = "label2";
             label2.Size = new Size(51, 15);
             label2.TabIndex = 1;
@@ -73,7 +75,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(24, 77);
+            label3.Location = new Point(27, 115);
             label3.Name = "label3";
             label3.Size = new Size(75, 15);
             label3.TabIndex = 2;
@@ -82,7 +84,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(24, 104);
+            label4.Location = new Point(27, 142);
             label4.Name = "label4";
             label4.Size = new Size(40, 15);
             label4.TabIndex = 3;
@@ -91,7 +93,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(24, 131);
+            label5.Location = new Point(27, 169);
             label5.Name = "label5";
             label5.Size = new Size(125, 15);
             label5.TabIndex = 4;
@@ -99,35 +101,35 @@
             // 
             // TxtCode
             // 
-            TxtCode.Location = new Point(159, 16);
+            TxtCode.Location = new Point(162, 54);
             TxtCode.Name = "TxtCode";
             TxtCode.Size = new Size(100, 23);
             TxtCode.TabIndex = 5;
             // 
             // txtName
             // 
-            txtName.Location = new Point(159, 43);
+            txtName.Location = new Point(162, 81);
             txtName.Name = "txtName";
             txtName.Size = new Size(100, 23);
             txtName.TabIndex = 6;
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(159, 69);
+            txtDescription.Location = new Point(162, 107);
             txtDescription.Name = "txtDescription";
             txtDescription.Size = new Size(100, 23);
             txtDescription.TabIndex = 7;
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(159, 96);
+            txtPrice.Location = new Point(162, 134);
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(100, 23);
             txtPrice.TabIndex = 8;
             // 
             // txtStock
             // 
-            txtStock.Location = new Point(159, 123);
+            txtStock.Location = new Point(162, 161);
             txtStock.Name = "txtStock";
             txtStock.Size = new Size(100, 23);
             txtStock.TabIndex = 9;
@@ -218,11 +220,29 @@
             Cantidad.Name = "Cantidad";
             Cantidad.Width = 125;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(27, 33);
+            label6.Name = "label6";
+            label6.Size = new Size(60, 15);
+            label6.TabIndex = 15;
+            label6.Text = "ProductID";
+            // 
+            // textBoxProductID
+            // 
+            textBoxProductID.Location = new Point(162, 25);
+            textBoxProductID.Name = "textBoxProductID";
+            textBoxProductID.Size = new Size(100, 23);
+            textBoxProductID.TabIndex = 16;
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 450);
+            Controls.Add(textBoxProductID);
+            Controls.Add(label6);
             Controls.Add(dataGridViewProductos);
             Controls.Add(BtnDelete);
             Controls.Add(BtnRefresh);
@@ -268,5 +288,7 @@
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Precio;
         private DataGridViewTextBoxColumn Cantidad;
+        private Label label6;
+        private TextBox textBoxProductID;
     }
 }

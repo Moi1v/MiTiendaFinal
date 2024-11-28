@@ -49,7 +49,7 @@ namespace MiTienda
 
                 string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
-                string query = "SELECT * FROM dbo.Employees";
+                string query = "SELECT * FROM Employees";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -57,6 +57,17 @@ namespace MiTienda
                     {
                         connection.Open();
                         MessageBox.Show("¡Conectado!");
+
+                        SqlCommand command = new SqlCommand(query, connection);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                MessageBox.Show($"{reader["EmployeeID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader [4]}, {reader[5]}, {reader [6]}");
+                            }
+
+                        }
                     }
                     catch (Exception ex)
                     {

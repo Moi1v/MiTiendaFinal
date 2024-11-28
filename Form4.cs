@@ -12,7 +12,7 @@ namespace MiTienda
 {
     public partial class Form4 : Form
     {
-        private string connectionString = "Server=uspg.database.windows.net;Database=AZURE JOSIMAR;User Id=jhernandez;Password=g&ouJ1szsLZ6rJLt;";
+        private string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
         public Form4()
         {
@@ -27,8 +27,17 @@ namespace MiTienda
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-      
-            string query = "INSERT INTO Products (Codigo, Nombre, Descripcion, Precio, Cantidad) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @Cantidad)";
+
+        
+            string productCode = TxtCode.Text.Trim();
+            string productName = txtName.Text.Trim();
+            string productDescription = txtDescription.Text.Trim();
+            decimal productPrice = decimal.Parse(txtPrice.Text.Trim());
+            int productStock = int.Parse(txtStock.Text.Trim());
+
+        
+            string query = "INSERT INTO Products (Code, Name, Description, Price, Stock ) " +
+                           "VALUES (@Code, @Name, @Description, @Price, @Stock )";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -36,32 +45,40 @@ namespace MiTienda
                 {
                     connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
-                        command.Parameters.AddWithValue("@Nombre", txtName.Text);
-                        command.Parameters.AddWithValue("@Descripcion", txtDescription.Text);
-                        command.Parameters.AddWithValue("@Precio", Convert.ToDecimal(txtPrice.Text));
-                        command.Parameters.AddWithValue("@Cantidad", Convert.ToInt32(txtStock.Text));
+                    SqlCommand command = new SqlCommand(query, connection);
 
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Producto guardado correctamente en la base de datos.");
+               
+                    command.Parameters.AddWithValue("@Code", productCode);
+                    command.Parameters.AddWithValue("@Name", productName);
+                    command.Parameters.AddWithValue("@Description", productDescription);
+                    command.Parameters.AddWithValue("@Price", productPrice);
+                    command.Parameters.AddWithValue("@Stock", productStock);
+    
+
+        
+                    int rowsAffected = command.ExecuteNonQuery();
+
+    
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Producto agregado exitosamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar el producto.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al guardar el producto: {ex.Message}");
+                    MessageBox.Show($"Error: {ex.Message}");
                 }
             }
-
-            LimpiarCampos();
-            ActualizarDataGridView();
         }
 
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
          
-            string query = "UPDATE Products SET Nombre = @Nombre, Descripcion = @Descripcion, Precio = @Precio, Cantidad = @Cantidad WHERE Codigo = @Codigo";
+            string query = "UPDATE Products SET Name = @Name, Description = @Description, Price = @Price, Stock = @Stock WHERE Code = @Code";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -71,11 +88,11 @@ namespace MiTienda
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
-                        command.Parameters.AddWithValue("@Nombre", txtName.Text);
-                        command.Parameters.AddWithValue("@Descripcion", txtDescription.Text);
-                        command.Parameters.AddWithValue("@Precio", Convert.ToDecimal(txtPrice.Text));
-                        command.Parameters.AddWithValue("@Cantidad", Convert.ToInt32(txtStock.Text));
+                        command.Parameters.AddWithValue("@Code", TxtCode.Text);
+                        command.Parameters.AddWithValue("@Name", txtName.Text);
+                        command.Parameters.AddWithValue("@Description", txtDescription.Text);
+                        command.Parameters.AddWithValue("@Price", Convert.ToDecimal(txtPrice.Text));
+                        command.Parameters.AddWithValue("@Stock", Convert.ToInt32(txtStock.Text));
 
                         int rowsAffected = command.ExecuteNonQuery();
 
@@ -95,14 +112,16 @@ namespace MiTienda
                 }
             }
 
-            LimpiarCampos();
-            ActualizarDataGridView();
+
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-         
-            string query = "DELETE FROM Products WHERE Codigo = @Codigo";
+
+
+            int productID = int.Parse(textBoxProductID.Text.Trim()); 
+
+            string query = "DELETE FROM Products WHERE ProductID = @ProductID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -110,35 +129,38 @@ namespace MiTienda
                 {
                     connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    SqlCommand command = new SqlCommand(query, connection);
+
+         
+                    command.Parameters.AddWithValue("@ProductID", productID);
+
+                  
+                    int rowsAffected = command.ExecuteNonQuery();
+
+              
+                    if (rowsAffected > 0)
                     {
-                        command.Parameters.AddWithValue("@Codigo", TxtCode.Text);
-
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Producto eliminado correctamente de la base de datos.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Producto no encontrado.");
-                        }
+                        MessageBox.Show("Producto eliminado exitosamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo encontrar el producto para eliminar.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al eliminar el producto: {ex.Message}");
+                    MessageBox.Show($"Error: {ex.Message}");
                 }
             }
 
-            LimpiarCampos();
-            ActualizarDataGridView();
+
+
         }
 
         private void Btnconsult_Click(object sender, EventArgs e)
         {
-            
+
+    
             string query = "SELECT * FROM Products";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -147,44 +169,24 @@ namespace MiTienda
                 {
                     connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            dataGridViewProductos.Rows.Clear();
+                    SqlCommand command = new SqlCommand(query, connection);
 
-                            while (reader.Read())
-                            {
-                                dataGridViewProductos.Rows.Add(
-                                    reader["Codigo"],
-                                    reader["Nombre"],
-                                    reader["Descripcion"],
-                                    reader["Precio"],
-                                    reader["Cantidad"]
-                                );
-                            }
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            MessageBox.Show($"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}");
                         }
+
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al consultar los productos: {ex.Message}");
+                    MessageBox.Show($"Error {ex.Message}");
                 }
             }
-        }
 
-        private void LimpiarCampos()
-        {
-            TxtCode.Clear();
-            txtName.Clear();
-            txtDescription.Clear();
-            txtPrice.Clear();
-            txtStock.Clear();
-        }
-
-        private void ActualizarDataGridView()
-        {
-            Btnconsult_Click(null, null); 
         }
     }
-}
+ }
+
