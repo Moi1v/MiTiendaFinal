@@ -59,15 +59,6 @@ namespace MiTienda
                         MessageBox.Show("¡Conectado!");
 
                         SqlCommand command = new SqlCommand(query, connection);
-
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                MessageBox.Show($"{reader["EmployeeID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader [4]}, {reader[5]}, {reader [6]}");
-                            }
-
-                        }
                     }
                     catch (Exception ex)
                     {

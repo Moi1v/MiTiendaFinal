@@ -84,7 +84,7 @@ namespace MiTienda
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            Form5Facturacioncs formsfacturas = new Form5Facturacioncs();
+            Clientes formsfacturas = new Clientes();
             formsfacturas.Show();
             this.Hide();
         }
