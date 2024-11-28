@@ -20,14 +20,14 @@ namespace MiTienda
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            Employee_management designedForm = new Employee_management();
+            Employee designedForm = new Employee();
             designedForm.Show();
 
             this.Hide();
 
             string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
-            string query = "SELECT * FROM dbo.Employees";
+            string query = "SELECT * FROM Employees";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
