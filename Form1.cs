@@ -24,7 +24,7 @@ namespace MiTienda
             string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
            
-            string query = "SELECT COUNT(1) FROM Usuarios WHERE Usuario = @Usuario AND Contrasena = @Contrasena";
+            string query = "SELECT * FROM [PointOfSale].[dbo].[Employees] WHERE EmployeeID = @Usuario AND PasswordHash = @Contrasena";
 
             try
             {
@@ -35,9 +35,11 @@ namespace MiTienda
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-            
-                        command.Parameters.AddWithValue("@Usuario", usuario);
-                        command.Parameters.AddWithValue("@Contrasena", contrasena);
+
+                        usuario = "@Usuario";
+                        contrasena = "@Contrasena"; 
+
+                        
 
                         int result = Convert.ToInt32(command.ExecuteScalar());
 
