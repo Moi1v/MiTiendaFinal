@@ -29,104 +29,130 @@
         private void InitializeComponent()
         {
             dgvProductos = new DataGridView();
-            productoVentas = new DataGridViewTextBoxColumn();
-            precioVentas = new DataGridViewTextBoxColumn();
-            stockVentas = new DataGridViewTextBoxColumn();
+            CodigoProducto = new DataGridViewTextBoxColumn();
+            NombreProducto = new DataGridViewTextBoxColumn();
+            DescipcionProducto = new DataGridViewTextBoxColumn();
+            PrecioProducto = new DataGridViewTextBoxColumn();
+            CantidadProducto = new DataGridViewTextBoxColumn();
             dgvCarrito = new DataGridView();
-            nombreCarrito = new DataGridViewTextBoxColumn();
-            precioUnitarioCarrito = new DataGridViewTextBoxColumn();
-            cantidadCarrito = new DataGridViewTextBoxColumn();
-            subtotalCarrito = new DataGridViewTextBoxColumn();
-            txtBuscarProducto = new TextBox();
+            CodigoCarrito = new DataGridViewTextBoxColumn();
+            NombreCarrito = new DataGridViewTextBoxColumn();
+            CantidadCarrito = new DataGridViewTextBoxColumn();
+            PrecioCarrito = new DataGridViewTextBoxColumn();
+            SubtotalCarrito = new DataGridViewTextBoxColumn();
+            txtBuscar = new TextBox();
             btnBuscarProducto = new Button();
             btnAgregarCarrito = new Button();
             btnQuitarCarrito = new Button();
             btnFinalizarVenta = new Button();
             lblTotal = new Label();
             label1 = new Label();
+            numericCantidad = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericCantidad).BeginInit();
             SuspendLayout();
             // 
             // dgvProductos
             // 
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { productoVentas, precioVentas, stockVentas });
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { CodigoProducto, NombreProducto, DescipcionProducto, PrecioProducto, CantidadProducto });
             dgvProductos.Location = new Point(27, 111);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.RowHeadersWidth = 51;
-            dgvProductos.Size = new Size(428, 436);
+            dgvProductos.Size = new Size(679, 436);
             dgvProductos.TabIndex = 0;
             // 
-            // productoVentas
+            // CodigoProducto
             // 
-            productoVentas.HeaderText = "Productos";
-            productoVentas.MinimumWidth = 6;
-            productoVentas.Name = "productoVentas";
-            productoVentas.Width = 125;
+            CodigoProducto.HeaderText = "Codigo";
+            CodigoProducto.MinimumWidth = 6;
+            CodigoProducto.Name = "CodigoProducto";
+            CodigoProducto.Width = 125;
             // 
-            // precioVentas
+            // NombreProducto
             // 
-            precioVentas.HeaderText = "Precio";
-            precioVentas.MinimumWidth = 6;
-            precioVentas.Name = "precioVentas";
-            precioVentas.Width = 125;
+            NombreProducto.HeaderText = "Nombre";
+            NombreProducto.MinimumWidth = 6;
+            NombreProducto.Name = "NombreProducto";
+            NombreProducto.Width = 125;
             // 
-            // stockVentas
+            // DescipcionProducto
             // 
-            stockVentas.HeaderText = "Stock";
-            stockVentas.MinimumWidth = 6;
-            stockVentas.Name = "stockVentas";
-            stockVentas.Width = 125;
+            DescipcionProducto.HeaderText = "Descripcion";
+            DescipcionProducto.MinimumWidth = 6;
+            DescipcionProducto.Name = "DescipcionProducto";
+            DescipcionProducto.Width = 125;
+            // 
+            // PrecioProducto
+            // 
+            PrecioProducto.HeaderText = "Precio";
+            PrecioProducto.MinimumWidth = 6;
+            PrecioProducto.Name = "PrecioProducto";
+            PrecioProducto.Width = 125;
+            // 
+            // CantidadProducto
+            // 
+            CantidadProducto.HeaderText = "Cantidad";
+            CantidadProducto.MinimumWidth = 6;
+            CantidadProducto.Name = "CantidadProducto";
+            CantidadProducto.Width = 125;
             // 
             // dgvCarrito
             // 
             dgvCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCarrito.Columns.AddRange(new DataGridViewColumn[] { nombreCarrito, precioUnitarioCarrito, cantidadCarrito, subtotalCarrito });
-            dgvCarrito.Location = new Point(485, 111);
+            dgvCarrito.Columns.AddRange(new DataGridViewColumn[] { CodigoCarrito, NombreCarrito, CantidadCarrito, PrecioCarrito, SubtotalCarrito });
+            dgvCarrito.Location = new Point(745, 111);
             dgvCarrito.Name = "dgvCarrito";
             dgvCarrito.RowHeadersWidth = 51;
-            dgvCarrito.Size = new Size(553, 436);
+            dgvCarrito.Size = new Size(670, 436);
             dgvCarrito.TabIndex = 1;
             // 
-            // nombreCarrito
+            // CodigoCarrito
             // 
-            nombreCarrito.HeaderText = "Producto";
-            nombreCarrito.MinimumWidth = 6;
-            nombreCarrito.Name = "nombreCarrito";
-            nombreCarrito.Width = 125;
+            CodigoCarrito.HeaderText = "Codigo";
+            CodigoCarrito.MinimumWidth = 6;
+            CodigoCarrito.Name = "CodigoCarrito";
+            CodigoCarrito.Width = 125;
             // 
-            // precioUnitarioCarrito
+            // NombreCarrito
             // 
-            precioUnitarioCarrito.HeaderText = "Precio Unitario";
-            precioUnitarioCarrito.MinimumWidth = 6;
-            precioUnitarioCarrito.Name = "precioUnitarioCarrito";
-            precioUnitarioCarrito.Width = 125;
+            NombreCarrito.HeaderText = "Nombre";
+            NombreCarrito.MinimumWidth = 6;
+            NombreCarrito.Name = "NombreCarrito";
+            NombreCarrito.Width = 125;
             // 
-            // cantidadCarrito
+            // CantidadCarrito
             // 
-            cantidadCarrito.HeaderText = "Cantidad";
-            cantidadCarrito.MinimumWidth = 6;
-            cantidadCarrito.Name = "cantidadCarrito";
-            cantidadCarrito.Width = 125;
+            CantidadCarrito.HeaderText = "Cantidad";
+            CantidadCarrito.MinimumWidth = 6;
+            CantidadCarrito.Name = "CantidadCarrito";
+            CantidadCarrito.Width = 125;
             // 
-            // subtotalCarrito
+            // PrecioCarrito
             // 
-            subtotalCarrito.HeaderText = "Subtotal";
-            subtotalCarrito.MinimumWidth = 6;
-            subtotalCarrito.Name = "subtotalCarrito";
-            subtotalCarrito.Width = 125;
+            PrecioCarrito.HeaderText = "Precio";
+            PrecioCarrito.MinimumWidth = 6;
+            PrecioCarrito.Name = "PrecioCarrito";
+            PrecioCarrito.Width = 125;
             // 
-            // txtBuscarProducto
+            // SubtotalCarrito
             // 
-            txtBuscarProducto.Location = new Point(27, 65);
-            txtBuscarProducto.Name = "txtBuscarProducto";
-            txtBuscarProducto.Size = new Size(125, 27);
-            txtBuscarProducto.TabIndex = 2;
+            SubtotalCarrito.HeaderText = "Subtotal";
+            SubtotalCarrito.MinimumWidth = 6;
+            SubtotalCarrito.Name = "SubtotalCarrito";
+            SubtotalCarrito.Width = 125;
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(27, 65);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(125, 27);
+            txtBuscar.TabIndex = 2;
             // 
             // btnBuscarProducto
             // 
-            btnBuscarProducto.Location = new Point(902, 675);
+            btnBuscarProducto.Location = new Point(1279, 675);
             btnBuscarProducto.Name = "btnBuscarProducto";
             btnBuscarProducto.Size = new Size(136, 29);
             btnBuscarProducto.TabIndex = 3;
@@ -135,7 +161,7 @@
             // 
             // btnAgregarCarrito
             // 
-            btnAgregarCarrito.Location = new Point(902, 570);
+            btnAgregarCarrito.Location = new Point(1279, 570);
             btnAgregarCarrito.Name = "btnAgregarCarrito";
             btnAgregarCarrito.Size = new Size(136, 29);
             btnAgregarCarrito.TabIndex = 4;
@@ -144,7 +170,7 @@
             // 
             // btnQuitarCarrito
             // 
-            btnQuitarCarrito.Location = new Point(902, 605);
+            btnQuitarCarrito.Location = new Point(1279, 605);
             btnQuitarCarrito.Name = "btnQuitarCarrito";
             btnQuitarCarrito.Size = new Size(136, 29);
             btnQuitarCarrito.TabIndex = 5;
@@ -153,7 +179,7 @@
             // 
             // btnFinalizarVenta
             // 
-            btnFinalizarVenta.Location = new Point(902, 640);
+            btnFinalizarVenta.Location = new Point(1279, 640);
             btnFinalizarVenta.Name = "btnFinalizarVenta";
             btnFinalizarVenta.Size = new Size(136, 29);
             btnFinalizarVenta.TabIndex = 6;
@@ -163,7 +189,7 @@
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(769, 574);
+            lblTotal.Location = new Point(1146, 574);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(87, 20);
             lblTotal.TabIndex = 7;
@@ -178,24 +204,33 @@
             label1.TabIndex = 8;
             label1.Text = "Buscar";
             // 
+            // numericCantidad
+            // 
+            numericCantidad.Location = new Point(176, 66);
+            numericCantidad.Name = "numericCantidad";
+            numericCantidad.Size = new Size(150, 27);
+            numericCantidad.TabIndex = 9;
+            // 
             // Ventas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1067, 726);
+            ClientSize = new Size(1453, 726);
+            Controls.Add(numericCantidad);
             Controls.Add(label1);
             Controls.Add(lblTotal);
             Controls.Add(btnFinalizarVenta);
             Controls.Add(btnQuitarCarrito);
             Controls.Add(btnAgregarCarrito);
             Controls.Add(btnBuscarProducto);
-            Controls.Add(txtBuscarProducto);
+            Controls.Add(txtBuscar);
             Controls.Add(dgvCarrito);
             Controls.Add(dgvProductos);
             Name = "Ventas";
             Text = "Ventas";
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarrito).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericCantidad).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -203,20 +238,24 @@
         #endregion
 
         private DataGridView dgvProductos;
-        private DataGridViewTextBoxColumn productoVentas;
-        private DataGridViewTextBoxColumn precioVentas;
-        private DataGridViewTextBoxColumn stockVentas;
         private DataGridView dgvCarrito;
-        private DataGridViewTextBoxColumn nombreCarrito;
-        private DataGridViewTextBoxColumn precioUnitarioCarrito;
-        private DataGridViewTextBoxColumn cantidadCarrito;
-        private DataGridViewTextBoxColumn subtotalCarrito;
-        private TextBox txtBuscarProducto;
+        private TextBox txtBuscar;
         private Button btnBuscarProducto;
         private Button btnAgregarCarrito;
         private Button btnQuitarCarrito;
         private Button btnFinalizarVenta;
         private Label lblTotal;
         private Label label1;
+        private DataGridViewTextBoxColumn CodigoProducto;
+        private DataGridViewTextBoxColumn NombreProducto;
+        private DataGridViewTextBoxColumn DescipcionProducto;
+        private DataGridViewTextBoxColumn PrecioProducto;
+        private DataGridViewTextBoxColumn CantidadProducto;
+        private DataGridViewTextBoxColumn CodigoCarrito;
+        private DataGridViewTextBoxColumn NombreCarrito;
+        private DataGridViewTextBoxColumn CantidadCarrito;
+        private DataGridViewTextBoxColumn PrecioCarrito;
+        private DataGridViewTextBoxColumn SubtotalCarrito;
+        private NumericUpDown numericCantidad;
     }
 }

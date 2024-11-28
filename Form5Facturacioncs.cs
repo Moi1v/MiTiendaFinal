@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MiTienda
@@ -23,23 +16,21 @@ namespace MiTienda
             set { lblTotalFactura.Text = value; }
         }
 
-        public void AgregarProducto(string nombre, decimal precio, int cantidad, decimal subtotal)
+        public void AgregarProducto(string codigo, string nombre, int cantidad, decimal precioUnitario, decimal subtotal)
         {
-            dgvFactura.Rows.Add(nombre, precio, cantidad, subtotal);
+            dgvFactura.Rows.Add(codigo, nombre, cantidad, precioUnitario, subtotal);
         }
 
         private void btnConfirmarVenta_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Venta confirmada con éxito. ¡Gracias por su compra!");
+            MessageBox.Show("Venta confirmada con éxito.");
             this.Close();
         }
 
-        private void btnCancelarVenta_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("¿Está seguro de que desea cancelar la venta?", "Cancelar Venta", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                this.Close();
-            }
+            MessageBox.Show("Venta cancelada.");
+            this.Close();
         }
     }
 }
