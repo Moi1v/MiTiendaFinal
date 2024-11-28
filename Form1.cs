@@ -14,64 +14,66 @@ namespace MiTienda
 
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
+            var usuarios = new (string Username, string Password)[]
+            {
+            ("carlosm", "password1"),
+            ("anal", "password2"),
+            ("juanp", "password3"),
+            ("mariag", "password4"),
+            ("luish", "password5"),
+            ("sofíar", "password6")
+            };
 
-
-         
             string usuario = textBox1.Text.Trim();
             string contrasena = textBox2.Text.Trim();
 
-          
-            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
-
-           
-            string query = "SELECT * FROM [PointOfSale].[dbo].[Employees] WHERE EmployeeID = @Usuario AND PasswordHash = @Contrasena";
-
-            try
+         
+            bool loginValido = false;
+            foreach (var u in usuarios)
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (u.Username == usuario && u.Password == contrasena)
                 {
-                 
-                    connection.Open();
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-
-                        usuario = "@Usuario";
-                        contrasena = "@Contrasena"; 
-
-                        
-
-                        int result = Convert.ToInt32(command.ExecuteScalar());
-
-                        if (result == 1)
-                        {
-                        
-                            Menu designedForm = new Menu();
-                            designedForm.Show();
-
-                            textBox1.Clear();
-                            textBox2.Clear();
-
-                            this.Hide();
-                        }
-                        else
-                        {
-                  
-                            MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                            textBox1.Clear();
-                            textBox2.Clear();
-                        }
-                    }
+                    loginValido = true;
+                    break;
                 }
             }
-            catch (Exception ex)
-            {
-         
-                MessageBox.Show($"Error al validar las credenciales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
+            if (loginValido)
+            {
+               
+                Menu designedForm = new Menu();
+                designedForm.Show();
+                textBox1.Clear();
+                textBox2.Clear();
+                this.Hide();
+
+                string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+                string query = "SELECT * FROM dbo.Employees";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+                        MessageBox.Show("¡Conectado!");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error {ex.Message}");
+                    }
+                }
+
+            }
+            else
+            {
+          
+                MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBox1.Clear();
+                textBox2.Clear();
+            }
         }
+
 
         private void BtnSalir_Click(object sender, EventArgs e)
         {

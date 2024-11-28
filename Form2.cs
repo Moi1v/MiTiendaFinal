@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,6 +25,23 @@ namespace MiTienda
 
             this.Hide();
 
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+            string query = "SELECT * FROM dbo.Employees";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("¡Conectado A Base de Empleados!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error {ex.Message}");
+                }
+            }
+
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)
@@ -38,6 +56,23 @@ namespace MiTienda
             Form4 designedForm = new Form4();
             designedForm.Show();
             this.Hide();
+
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+            string query = "SELECT * FROM dbo.Products";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("¡Conectado A base de Productos!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error {ex.Message}");
+                }
+            }
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
