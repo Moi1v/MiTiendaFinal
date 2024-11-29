@@ -1,12 +1,13 @@
 using ConexionSQLAzure;
 using Microsoft.Data.SqlClient;
-using System.Data.Common;
+using System.Data;
+
 namespace MiTienda
 {
     public partial class log_in : Form
-
     {
         private AzureSqlConnection _connection;
+
         public log_in()
         {
             InitializeComponent();
@@ -14,68 +15,48 @@ namespace MiTienda
 
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
-            var usuarios = new (string Username, string Password)[]
-            {
-            ("carlosm", "password1"),
-            ("anal", "password2"),
-            ("juanp", "password3"),
-            ("mariag", "password4"),
-            ("luish", "password5"),
-            ("sofíar", "password6")
-            };
-
             string usuario = textBox1.Text.Trim();
             string contrasena = textBox2.Text.Trim();
 
-         
-            bool loginValido = false;
-            foreach (var u in usuarios)
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+            string query = "SELECT COUNT(1) FROM Employees WHERE Username = @Username AND PasswordHash = @PasswordHash";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                if (u.Username == usuario && u.Password == contrasena)
+                try
                 {
-                    loginValido = true;
-                    break;
-                }
-            }
+                    connection.Open();
 
-            if (loginValido)
-            {
-               
-                Menu designedForm = new Menu();
-                designedForm.Show();
-                textBox1.Clear();
-                textBox2.Clear();
-                this.Hide();
-
-                string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
-
-                string query = "SELECT * FROM Employees";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    try
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        connection.Open();
-                        MessageBox.Show("¡Conectado!");
+                        command.Parameters.AddWithValue("@Username", usuario);
+                        command.Parameters.AddWithValue("@PasswordHash", contrasena);
 
-                        SqlCommand command = new SqlCommand(query, connection);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error {ex.Message}");
+                        int count = (int)command.ExecuteScalar();
+
+                        if (count == 1)
+                        {
+                            Menu designedForm = new Menu();
+                            designedForm.Show();
+                            textBox1.Clear();
+                            textBox2.Clear();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            textBox1.Clear();
+                            textBox2.Clear();
+                        }
                     }
                 }
-
-            }
-            else
-            {
-          
-                MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                textBox1.Clear();
-                textBox2.Clear();
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
             }
         }
-
 
         private void BtnSalir_Click(object sender, EventArgs e)
         {
@@ -88,12 +69,10 @@ namespace MiTienda
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
         }
-
     }
 }
