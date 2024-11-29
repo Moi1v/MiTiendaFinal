@@ -50,7 +50,6 @@
             // 
             // ShowProductImage
             // 
-            ShowProductImage.Image = Properties.Resources.images;
             ShowProductImage.Location = new Point(561, 130);
             ShowProductImage.Name = "ShowProductImage";
             ShowProductImage.Size = new Size(147, 139);

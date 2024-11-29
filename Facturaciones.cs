@@ -157,12 +157,12 @@ namespace MiTienda
 
         private void BtnFinalizar_Click(object sender, EventArgs e)
         {
-            // Validar que el DataGridView tenga datos
-            if (dataGridViewFacturacion.Rows.Count == 0)
-            {
-                MessageBox.Show("No hay datos en el grid para guardar.");
-                return;
-            }
+            string Cliente = txtIDCustomer.Text.Trim();
+            string Empleado = txtEmpleado.Text.Trim();
+
+
+            string query = "INSERT INTO Sales (SaleDate, CustomerID, EmployeeID, Total ) " +
+                           "VALUES (@SaleDate, @CustomerID, @EmployeeID, @Total)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -170,44 +170,36 @@ namespace MiTienda
                 {
                     connection.Open();
 
-                    foreach (DataGridViewRow row in dataGridViewFacturacion.Rows)
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    DateTime Fecha = DateTime.Today;
+
+                    decimal totalAmount = GetTotalAmount(); 
+                    
+                    command.Parameters.AddWithValue("@Total", totalAmount); 
+                    command.Parameters.AddWithValue("@SaleDate", Fecha); 
+                    command.Parameters.AddWithValue("@CustomerID", Cliente);
+                    command.Parameters.AddWithValue("@EmployeeID", Empleado);
+
+
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
                     {
-                        // Validar que la fila no esté vacía
-                        if (row.Cells["SaleID"].Value == null ||
-                            row.Cells["SaleDate"].Value == null ||
-                            row.Cells["CustomerID"].Value == null ||
-                            row.Cells["EmployeeID"].Value == null ||
-                            row.Cells["Total"].Value == null)
-                        {
-                            continue;
-                        }
-
-                        // Leer datos de la fila
-                        int saleId = Convert.ToInt32(row.Cells["SaleID"].Value);
-                        DateTime saleDate = Convert.ToDateTime(row.Cells["SaleDate"].Value);
-                        int customerId = Convert.ToInt32(row.Cells["CustomerID"].Value);
-                        int employeeId = Convert.ToInt32(row.Cells["EmployeeID"].Value);
-                        decimal total = Convert.ToDecimal(row.Cells["Total"].Value);
-
-                        // Query para insertar en la tabla Sales
-                        string query = "INSERT INTO Sales (SaleID, SaleDate, CustomerID, EmployeeID, Total) " +
-                                       "VALUES (@SaleID, @SaleDate, @CustomerID, @EmployeeID, @Total)";
-
-                        SqlCommand command = new SqlCommand(query, connection);
-                        command.Parameters.AddWithValue("@SaleID", saleId);
-                        command.Parameters.AddWithValue("@SaleDate", saleDate);
-                        command.Parameters.AddWithValue("@CustomerID", customerId);
-                        command.Parameters.AddWithValue("@EmployeeID", employeeId);
-                        command.Parameters.AddWithValue("@Total", total);
-
-                        command.ExecuteNonQuery();
+                        MessageBox.Show("Venta agregada exitosamente, !Gracias por su compra¡");
+                        Menu menu = new Menu();
+                        menu.Show();
+                        this.Hide();
                     }
-
-                    MessageBox.Show("Datos guardados exitosamente en la tabla 'Sales'.");
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar la venta.");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al guardar datos: {ex.Message}");
+                    MessageBox.Show($"Error: {ex.Message}");
                 }
             }
         }
