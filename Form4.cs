@@ -153,9 +153,10 @@ namespace MiTienda
 
         private void Btnconsult_Click(object sender, EventArgs e)
         {
-
-
             string query = "SELECT * FROM Products";
+
+            // Ruta de la carpeta de imágenes
+            string rutaCarpeta = Path.Combine(Application.StartupPath, "Images");
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -169,10 +170,33 @@ namespace MiTienda
                     {
                         while (reader.Read())
                         {
+<<<<<<< HEAD
                             MessageBox.Show($"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}");
                             
                         }
+=======
+                            string mensaje = $"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}";
+>>>>>>> 703f82c678f29b65f8849202881ca879a8fa8be0
 
+                            string codigoProducto = reader["Codigo"].ToString();
+
+                            string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
+
+                            if (File.Exists(rutaImagen))
+                            {
+                                pictureBoxProducto.Image = Image.FromFile(rutaImagen);
+                            }
+                            else
+                            {
+                                pictureBoxProducto.Image = null; 
+                                MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
+                            }
+
+
+                            MessageBox.Show(mensaje, "Información del Producto");
+
+
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -189,35 +213,6 @@ namespace MiTienda
             designedForm.Show();
             this.Hide();
         }
-        private void dgvProductos_SelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (dataGridViewProductos.SelectedRows.Count > 0)
-                {
-                    string codigoProducto = dataGridViewProductos.SelectedRows[0].Cells["Codigo"].Value.ToString();
-
-                    string rutaCarpeta = Path.Combine(Application.StartupPath, "Images");
-
-                    string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
-
-                    if (File.Exists(rutaImagen))
-                    {
-                        pictureBoxProducto.Image = Image.FromFile(rutaImagen);
-                    }
-                    else
-                    {
-                        pictureBoxProducto.Image = null;
-                        MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ocurrió un error al cargar la imagen: {ex.Message}", "Error");
-            }
-        }
-
 
     }
 }
