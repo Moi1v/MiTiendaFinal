@@ -159,7 +159,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(345, 232);
+            button1.Location = new Point(345, 269);
             button1.Name = "button1";
             button1.Size = new Size(100, 34);
             button1.TabIndex = 13;
@@ -169,7 +169,7 @@
             // 
             // BtnEliminar
             // 
-            BtnEliminar.Location = new Point(345, 275);
+            BtnEliminar.Location = new Point(345, 312);
             BtnEliminar.Name = "BtnEliminar";
             BtnEliminar.Size = new Size(100, 34);
             BtnEliminar.TabIndex = 14;
@@ -179,7 +179,7 @@
             // 
             // BtnMostrar
             // 
-            BtnMostrar.Location = new Point(345, 319);
+            BtnMostrar.Location = new Point(345, 356);
             BtnMostrar.Name = "BtnMostrar";
             BtnMostrar.Size = new Size(100, 34);
             BtnMostrar.TabIndex = 15;
@@ -189,7 +189,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(345, 359);
+            button4.Location = new Point(345, 396);
             button4.Name = "button4";
             button4.Size = new Size(100, 34);
             button4.TabIndex = 16;

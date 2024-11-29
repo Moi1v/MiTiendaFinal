@@ -60,94 +60,88 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(31, 85);
+            label1.Location = new Point(27, 64);
             label1.Name = "label1";
-            label1.Size = new Size(58, 20);
+            label1.Size = new Size(46, 15);
             label1.TabIndex = 0;
             label1.Text = "Codigo";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(31, 119);
+            label2.Location = new Point(27, 89);
             label2.Name = "label2";
-            label2.Size = new Size(64, 20);
+            label2.Size = new Size(51, 15);
             label2.TabIndex = 1;
             label2.Text = "Nombre";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(31, 153);
+            label3.Location = new Point(27, 115);
             label3.Name = "label3";
-            label3.Size = new Size(94, 20);
+            label3.Size = new Size(75, 15);
             label3.TabIndex = 2;
             label3.Text = "Descripccion";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(31, 189);
+            label4.Location = new Point(27, 142);
             label4.Name = "label4";
-            label4.Size = new Size(50, 20);
+            label4.Size = new Size(40, 15);
             label4.TabIndex = 3;
             label4.Text = "Precio";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(31, 225);
+            label5.Location = new Point(27, 169);
             label5.Name = "label5";
-            label5.Size = new Size(157, 20);
+            label5.Size = new Size(125, 15);
             label5.TabIndex = 4;
             label5.Text = "cantidad en inventario";
             // 
             // TxtCode
             // 
-            TxtCode.Location = new Point(185, 72);
-            TxtCode.Margin = new Padding(3, 4, 3, 4);
+            TxtCode.Location = new Point(162, 54);
             TxtCode.Name = "TxtCode";
-            TxtCode.Size = new Size(114, 27);
+            TxtCode.Size = new Size(100, 23);
             TxtCode.TabIndex = 5;
             // 
             // txtName
             // 
-            txtName.Location = new Point(185, 108);
-            txtName.Margin = new Padding(3, 4, 3, 4);
+            txtName.Location = new Point(162, 81);
             txtName.Name = "txtName";
-            txtName.Size = new Size(114, 27);
+            txtName.Size = new Size(100, 23);
             txtName.TabIndex = 6;
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(185, 143);
-            txtDescription.Margin = new Padding(3, 4, 3, 4);
+            txtDescription.Location = new Point(162, 107);
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(114, 27);
+            txtDescription.Size = new Size(100, 23);
             txtDescription.TabIndex = 7;
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(185, 179);
-            txtPrice.Margin = new Padding(3, 4, 3, 4);
+            txtPrice.Location = new Point(162, 134);
             txtPrice.Name = "txtPrice";
-            txtPrice.Size = new Size(114, 27);
+            txtPrice.Size = new Size(100, 23);
             txtPrice.TabIndex = 8;
             // 
             // txtStock
             // 
-            txtStock.Location = new Point(185, 215);
-            txtStock.Margin = new Padding(3, 4, 3, 4);
+            txtStock.Location = new Point(162, 161);
             txtStock.Name = "txtStock";
-            txtStock.Size = new Size(114, 27);
+            txtStock.Size = new Size(100, 23);
             txtStock.TabIndex = 9;
             // 
             // BtnSave
             // 
-            BtnSave.Location = new Point(561, 503);
-            BtnSave.Margin = new Padding(3, 4, 3, 4);
+            BtnSave.Location = new Point(491, 377);
             BtnSave.Name = "BtnSave";
-            BtnSave.Size = new Size(109, 55);
+            BtnSave.Size = new Size(95, 41);
             BtnSave.TabIndex = 10;
             BtnSave.Text = "Guardar";
             BtnSave.UseVisualStyleBackColor = true;
@@ -155,10 +149,9 @@
             // 
             // Btnmostrar
             // 
-            Btnmostrar.Location = new Point(677, 503);
-            Btnmostrar.Margin = new Padding(3, 4, 3, 4);
+            Btnmostrar.Location = new Point(592, 377);
             Btnmostrar.Name = "Btnmostrar";
-            Btnmostrar.Size = new Size(109, 55);
+            Btnmostrar.Size = new Size(95, 41);
             Btnmostrar.TabIndex = 11;
             Btnmostrar.Text = "Mostrar";
             Btnmostrar.UseVisualStyleBackColor = true;
@@ -166,10 +159,9 @@
             // 
             // BtnRefresh
             // 
-            BtnRefresh.Location = new Point(792, 503);
-            BtnRefresh.Margin = new Padding(3, 4, 3, 4);
+            BtnRefresh.Location = new Point(693, 377);
             BtnRefresh.Name = "BtnRefresh";
-            BtnRefresh.Size = new Size(109, 55);
+            BtnRefresh.Size = new Size(95, 41);
             BtnRefresh.TabIndex = 12;
             BtnRefresh.Text = "Actualizar";
             BtnRefresh.UseVisualStyleBackColor = true;
@@ -177,10 +169,9 @@
             // 
             // BtnDelete
             // 
-            BtnDelete.Location = new Point(907, 503);
-            BtnDelete.Margin = new Padding(3, 4, 3, 4);
+            BtnDelete.Location = new Point(794, 377);
             BtnDelete.Name = "BtnDelete";
-            BtnDelete.Size = new Size(109, 55);
+            BtnDelete.Size = new Size(95, 41);
             BtnDelete.TabIndex = 13;
             BtnDelete.Text = "Eliminar";
             BtnDelete.UseVisualStyleBackColor = true;
@@ -190,10 +181,11 @@
             // 
             dataGridViewProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewProductos.Columns.AddRange(new DataGridViewColumn[] { Codigo, Nombre, Descripcion, Precio, Cantidad });
-            dataGridViewProductos.Location = new Point(341, 21);
+            dataGridViewProductos.Location = new Point(298, 16);
+            dataGridViewProductos.Margin = new Padding(3, 2, 3, 2);
             dataGridViewProductos.Name = "dataGridViewProductos";
             dataGridViewProductos.RowHeadersWidth = 51;
-            dataGridViewProductos.Size = new Size(678, 367);
+            dataGridViewProductos.Size = new Size(593, 275);
             dataGridViewProductos.TabIndex = 14;
             // 
             // Codigo
@@ -234,26 +226,24 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(31, 44);
+            label6.Location = new Point(27, 33);
             label6.Name = "label6";
-            label6.Size = new Size(75, 20);
+            label6.Size = new Size(60, 15);
             label6.TabIndex = 15;
             label6.Text = "ProductID";
             // 
             // textBoxProductID
             // 
-            textBoxProductID.Location = new Point(185, 33);
-            textBoxProductID.Margin = new Padding(3, 4, 3, 4);
+            textBoxProductID.Location = new Point(162, 25);
             textBoxProductID.Name = "textBoxProductID";
-            textBoxProductID.Size = new Size(114, 27);
+            textBoxProductID.Size = new Size(100, 23);
             textBoxProductID.TabIndex = 16;
             // 
             // BtnRegresar
             // 
-            BtnRegresar.Location = new Point(446, 503);
-            BtnRegresar.Margin = new Padding(3, 4, 3, 4);
+            BtnRegresar.Location = new Point(390, 377);
             BtnRegresar.Name = "BtnRegresar";
-            BtnRegresar.Size = new Size(109, 55);
+            BtnRegresar.Size = new Size(95, 41);
             BtnRegresar.TabIndex = 17;
             BtnRegresar.Text = "Return";
             BtnRegresar.UseVisualStyleBackColor = true;
@@ -261,17 +251,18 @@
             // 
             // pictureBoxProducto
             // 
-            pictureBoxProducto.Location = new Point(31, 326);
+            pictureBoxProducto.Location = new Point(27, 244);
+            pictureBoxProducto.Margin = new Padding(3, 2, 3, 2);
             pictureBoxProducto.Name = "pictureBoxProducto";
-            pictureBoxProducto.Size = new Size(283, 262);
+            pictureBoxProducto.Size = new Size(248, 196);
             pictureBoxProducto.TabIndex = 18;
             pictureBoxProducto.TabStop = false;
             // 
             // Form4
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1045, 600);
+            ClientSize = new Size(914, 450);
             Controls.Add(pictureBoxProducto);
             Controls.Add(BtnRegresar);
             Controls.Add(textBoxProductID);
@@ -292,7 +283,6 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form4";
             Text = "Form4";
             ((System.ComponentModel.ISupportInitialize)dataGridViewProductos).EndInit();

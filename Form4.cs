@@ -170,6 +170,7 @@ namespace MiTienda
                         while (reader.Read())
                         {
                             MessageBox.Show($"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}");
+                            
                         }
 
                     }

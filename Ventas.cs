@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Windows.Forms;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Xml.Linq;
 
 namespace MiTienda
 {
@@ -12,124 +15,107 @@ namespace MiTienda
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Lógica para buscar productos en dgvProductos según Código o Nombre
-            string busqueda = txtBuscar.Text.ToLower();
+            string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
-            foreach (DataGridViewRow row in dgvProductos.Rows)
+            // Datos de la venta
+            int customerID, employeeID, productID, quantity;
+            decimal price, total;
+
+            // Validar entradas
+            if (!int.TryParse(txtCustomerID.Text.Trim(), out customerID) ||
+                !int.TryParse(txtEmployeeID.Text.Trim(), out employeeID) ||
+                !int.TryParse(txtProductID.Text.Trim(), out productID) ||
+                !int.TryParse(txtQuantity.Text.Trim(), out quantity) ||
+                quantity <= 0)
             {
-                bool coincide = row.Cells["CodigoProducto"].Value.ToString().ToLower().Contains(busqueda) ||
-                                row.Cells["NombreProducto"].Value.ToString().ToLower().Contains(busqueda);
-
-                row.Visible = coincide;
+                MessageBox.Show("Por favor, ingresa valores válidos para Cliente, Empleado, Producto y Cantidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-        }
 
-        private void btnAgregarCarrito_Click(object sender, EventArgs e)
-        {
-            // Obtener el producto seleccionado
-            if (dgvProductos.SelectedRows.Count > 0)
+            try
             {
-                DataGridViewRow row = dgvProductos.SelectedRows[0];
-
-                string codigo = row.Cells["CodigoProducto"].Value.ToString();
-                string nombre = row.Cells["NombreProducto"].Value.ToString();
-                decimal precio = Convert.ToDecimal(row.Cells["PrecioProducto"].Value);
-                int cantidadDisponible = Convert.ToInt32(row.Cells["CantidadProducto"].Value);
-
-                // Pedir cantidad a agregar
-                int cantidad = Convert.ToInt32(numericCantidad.Value);
-
-                if (cantidad > 0 && cantidad <= cantidadDisponible)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Calcular subtotal
-                    decimal subtotal = cantidad * precio;
+                    connection.Open();
 
-                    // Agregar al carrito
-                    dgvCarrito.Rows.Add(codigo, nombre, cantidad, precio, subtotal);
-
-                    // Actualizar inventario
-                    row.Cells["CantidadProducto"].Value = cantidadDisponible - cantidad;
-
-                    ActualizarTotal();
-                }
-                else
-                {
-                    MessageBox.Show("Cantidad inválida o insuficiente en inventario.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Seleccione un producto para agregar al carrito.");
-            }
-        }
-
-        private void btnQuitarCarrito_Click(object sender, EventArgs e)
-        {
-            // Quitar producto seleccionado del carrito
-            if (dgvCarrito.SelectedRows.Count > 0)
-            {
-                DataGridViewRow row = dgvCarrito.SelectedRows[0];
-
-                string codigo = row.Cells["CodigoCarrito"].Value.ToString();
-                int cantidad = Convert.ToInt32(row.Cells["CantidadCarrito"].Value);
-
-                // Devolver cantidad al inventario
-                foreach (DataGridViewRow prodRow in dgvProductos.Rows)
-                {
-                    if (prodRow.Cells["CodigoProducto"].Value.ToString() == codigo)
+                    // Obtener el precio del producto
+                    string queryPrice = "SELECT Price, Stock FROM Products WHERE ProductID = @ProductID";
+                    using (SqlCommand commandPrice = new SqlCommand(queryPrice, connection))
                     {
-                        prodRow.Cells["CantidadProducto"].Value =
-                            Convert.ToInt32(prodRow.Cells["CantidadProducto"].Value) + cantidad;
-                        break;
+                        commandPrice.Parameters.AddWithValue("@ProductID", productID);
+                        using (SqlDataReader reader = commandPrice.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                price = Convert.ToDecimal(reader["Price"]);
+                                int stock = Convert.ToInt32(reader["Stock"]);
+
+                                // Validar stock disponible
+                                if (quantity > stock)
+                                {
+                                    MessageBox.Show("Stock insuficiente para la cantidad solicitada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Producto no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                     }
-                }
 
-                dgvCarrito.Rows.Remove(row);
-                ActualizarTotal();
+                    // Calcular total
+                    total = price * quantity;
+
+                    // Insertar venta en la tabla Sales
+                    string querySale = @"INSERT INTO Sales (SaleDate, CustomerID, EmployeeID, Total) 
+                                 VALUES (@SaleDate, @CustomerID, @EmployeeID, @Total);
+                                 SELECT SCOPE_IDENTITY();";
+
+                    int saleID;
+                    using (SqlCommand commandSale = new SqlCommand(querySale, connection))
+                    {
+                        commandSale.Parameters.AddWithValue("@SaleDate", DateTime.Now);
+                        commandSale.Parameters.AddWithValue("@CustomerID", customerID);
+                        commandSale.Parameters.AddWithValue("@EmployeeID", employeeID);
+                        commandSale.Parameters.AddWithValue("@Total", total);
+
+                        // Obtener el ID de la venta recién creada
+                        saleID = Convert.ToInt32(commandSale.ExecuteScalar());
+                    }
+
+                    // Insertar detalle de la venta en SaleDetails
+                    string querySaleDetail = @"INSERT INTO SaleDetails (SaleID, ProductID, Quantity, UnitPrice) 
+                                       VALUES (@SaleID, @ProductID, @Quantity, @UnitPrice)";
+
+                    using (SqlCommand commandSaleDetail = new SqlCommand(querySaleDetail, connection))
+                    {
+                        commandSaleDetail.Parameters.AddWithValue("@SaleID", saleID);
+                        commandSaleDetail.Parameters.AddWithValue("@ProductID", productID);
+                        commandSaleDetail.Parameters.AddWithValue("@Quantity", quantity);
+                        commandSaleDetail.Parameters.AddWithValue("@UnitPrice", price);
+
+                        commandSaleDetail.ExecuteNonQuery();
+                    }
+
+                    // Actualizar el stock del producto
+                    string queryUpdateStock = @"UPDATE Products SET Stock = Stock - @Quantity WHERE ProductID = @ProductID";
+
+                    using (SqlCommand commandUpdateStock = new SqlCommand(queryUpdateStock, connection))
+                    {
+                        commandUpdateStock.Parameters.AddWithValue("@Quantity", quantity);
+                        commandUpdateStock.Parameters.AddWithValue("@ProductID", productID);
+
+                        commandUpdateStock.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Seleccione un producto para quitar del carrito.");
+                MessageBox.Show($"Error al registrar la venta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void btnFinalizarVenta_Click(object sender, EventArgs e)
-        {
-            // Transferir datos del carrito al formulario de facturación
-            Form5Facturacioncs formFacturacion = new Form5Facturacioncs();
-
-            foreach (DataGridViewRow row in dgvCarrito.Rows)
-            {
-                if (!row.IsNewRow)
-                {
-                    formFacturacion.AgregarProducto(
-                        row.Cells["CodigoCarrito"].Value.ToString(),
-                        row.Cells["NombreCarrito"].Value.ToString(),
-                        Convert.ToInt32(row.Cells["CantidadCarrito"].Value),
-                        Convert.ToDecimal(row.Cells["PrecioUnitarioCarrito"].Value),
-                        Convert.ToDecimal(row.Cells["SubtotalCarrito"].Value)
-                    );
-                }
-            }
-
-            formFacturacion.Total = lblTotal.Text;
-            formFacturacion.Show();
-        }
-
-        private void ActualizarTotal()
-        {
-            // Calcular el total del carrito
-            decimal total = 0;
-
-            foreach (DataGridViewRow row in dgvCarrito.Rows)
-            {
-                if (!row.IsNewRow)
-                {
-                    total += Convert.ToDecimal(row.Cells["SubtotalCarrito"].Value);
-                }
-            }
-
-            lblTotal.Text = total.ToString("C2");
-        }
-    }
 }
