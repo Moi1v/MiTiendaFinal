@@ -1,135 +1,165 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MiTienda
 {
     public partial class Ventas : Form
     {
+        string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+
+        private DataTable carrito = new DataTable();
+
         public Ventas()
         {
             InitializeComponent();
+            InitializeCarrito();
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void InitializeCarrito()
         {
-            // Lógica para buscar productos en dgvProductos según Código o Nombre
-            string busqueda = txtBuscar.Text.ToLower();
 
-            foreach (DataGridViewRow row in dgvProductos.Rows)
+            carrito.Columns.Add("ProductID", typeof(int));
+            carrito.Columns.Add("Name", typeof(string));
+            carrito.Columns.Add("Price", typeof(decimal));
+            carrito.Columns.Add("Quantity", typeof(int));
+            carrito.Columns.Add("Total", typeof(decimal));
+        }
+
+        private void Ventas_Load(object sender, EventArgs e)
+        {
+            LoadProducts();
+        }
+
+        private void LoadProducts()
+        {
+            string query = "SELECT ProductID, Code, Name, Price FROM Products";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                bool coincide = row.Cells["CodigoProducto"].Value.ToString().ToLower().Contains(busqueda) ||
-                                row.Cells["NombreProducto"].Value.ToString().ToLower().Contains(busqueda);
-
-                row.Visible = coincide;
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable productsTable = new DataTable();
+                    adapter.Fill(productsTable);
+                    dataGridViewProducts.DataSource = productsTable;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al cargar los productos: {ex.Message}");
+                }
             }
         }
 
-        private void btnAgregarCarrito_Click(object sender, EventArgs e)
+        private void textBoxSearch_TextChanged_TextChanged(object sender, EventArgs e)
         {
-            // Obtener el producto seleccionado
-            if (dgvProductos.SelectedRows.Count > 0)
+            string searchText = textBoxSearch.Text.Trim();
+            if (!string.IsNullOrEmpty(searchText))
             {
-                DataGridViewRow row = dgvProductos.SelectedRows[0];
+                string query = "SELECT ProductID, Code, Name, Price FROM Products WHERE Name LIKE @Search OR Code LIKE @Search";
 
-                string codigo = row.Cells["CodigoProducto"].Value.ToString();
-                string nombre = row.Cells["NombreProducto"].Value.ToString();
-                decimal precio = Convert.ToDecimal(row.Cells["PrecioProducto"].Value);
-                int cantidadDisponible = Convert.ToInt32(row.Cells["CantidadProducto"].Value);
-
-                // Pedir cantidad a agregar
-                int cantidad = Convert.ToInt32(numericCantidad.Value);
-
-                if (cantidad > 0 && cantidad <= cantidadDisponible)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Calcular subtotal
-                    decimal subtotal = cantidad * precio;
-
-                    // Agregar al carrito
-                    dgvCarrito.Rows.Add(codigo, nombre, cantidad, precio, subtotal);
-
-                    // Actualizar inventario
-                    row.Cells["CantidadProducto"].Value = cantidadDisponible - cantidad;
-
-                    ActualizarTotal();
-                }
-                else
-                {
-                    MessageBox.Show("Cantidad inválida o insuficiente en inventario.");
+                    try
+                    {
+                        SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                        adapter.SelectCommand.Parameters.AddWithValue("@Search", "%" + searchText + "%");
+                        DataTable productsTable = new DataTable();
+                        adapter.Fill(productsTable);
+                        dataGridViewProducts.DataSource = productsTable;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al buscar productos: {ex.Message}");
+                    }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un producto para agregar al carrito.");
+                LoadProducts();
             }
         }
 
-        private void btnQuitarCarrito_Click(object sender, EventArgs e)
+        private void dataGridViewProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Quitar producto seleccionado del carrito
-            if (dgvCarrito.SelectedRows.Count > 0)
+            if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = dgvCarrito.SelectedRows[0];
+                int productId = Convert.ToInt32(dataGridViewProducts.Rows[e.RowIndex].Cells["ProductID"].Value);
+                string productName = dataGridViewProducts.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+                decimal productPrice = Convert.ToDecimal(dataGridViewProducts.Rows[e.RowIndex].Cells["Price"].Value);
 
-                string codigo = row.Cells["CodigoCarrito"].Value.ToString();
-                int cantidad = Convert.ToInt32(row.Cells["CantidadCarrito"].Value);
-
-                // Devolver cantidad al inventario
-                foreach (DataGridViewRow prodRow in dgvProductos.Rows)
+                bool productExists = false;
+                foreach (DataRow row in carrito.Rows)
                 {
-                    if (prodRow.Cells["CodigoProducto"].Value.ToString() == codigo)
+                    if (Convert.ToInt32(row["ProductID"]) == productId)
                     {
-                        prodRow.Cells["CantidadProducto"].Value =
-                            Convert.ToInt32(prodRow.Cells["CantidadProducto"].Value) + cantidad;
+                        row["Quantity"] = Convert.ToInt32(row["Quantity"]) + 1;
+                        row["Total"] = Convert.ToDecimal(row["Quantity"]) * productPrice;
+                        productExists = true;
                         break;
                     }
                 }
 
-                dgvCarrito.Rows.Remove(row);
-                ActualizarTotal();
+                // Si el producto no existe en el carrito, agregarlo
+                if (!productExists)
+                {
+                    carrito.Rows.Add(productId, productName, productPrice, 1, productPrice);
+                }
+
+                UpdateTotal();  // Actualizar el total del carrito
+            }
+        }
+
+        private void UpdateTotal()
+        {
+            decimal total = 0;
+            foreach (DataRow row in carrito.Rows)
+            {
+                total += Convert.ToDecimal(row["Total"]);
+            }
+            Total.Text = $"Total: {total:C2}";
+        }
+
+        private void buttonConfirmSale_Click(object sender, EventArgs e)
+        {
+            // Pasar el carrito al formulario Facturaciones
+            if (carrito.Rows.Count > 0)
+            {
+                decimal total = 0;
+                foreach (DataRow row in carrito.Rows)
+                {
+                    total += Convert.ToDecimal(row["Total"]);
+                }
+
+                MessageBox.Show($"Venta confirmada. Total: {total:C2}");
+
+                // Crea una nueva instancia de Facturaciones y pasa el carrito
+                Facturaciones facturacionForm = new Facturaciones(carrito);
+                facturacionForm.Show();
+
+                // Oculta el formulario actual
+                this.Hide();
             }
             else
             {
-                MessageBox.Show("Seleccione un producto para quitar del carrito.");
+                MessageBox.Show("No se ha seleccionado ningún producto.");
             }
+
+
         }
 
-        private void btnFinalizarVenta_Click(object sender, EventArgs e)
+        private void btnreturn_Click(object sender, EventArgs e)
         {
-            // Transferir datos del carrito al formulario de facturación
-            Form5Facturacioncs formFacturacion = new Form5Facturacioncs();
-
-            foreach (DataGridViewRow row in dgvCarrito.Rows)
-            {
-                if (!row.IsNewRow)
-                {
-                    formFacturacion.AgregarProducto(
-                        row.Cells["CodigoCarrito"].Value.ToString(),
-                        row.Cells["NombreCarrito"].Value.ToString(),
-                        Convert.ToInt32(row.Cells["CantidadCarrito"].Value),
-                        Convert.ToDecimal(row.Cells["PrecioUnitarioCarrito"].Value),
-                        Convert.ToDecimal(row.Cells["SubtotalCarrito"].Value)
-                    );
-                }
-            }
-
-            formFacturacion.Total = lblTotal.Text;
-            formFacturacion.Show();
-        }
-
-        private void ActualizarTotal()
-        {
-            // Calcular el total del carrito
-            decimal total = 0;
-
-            foreach (DataGridViewRow row in dgvCarrito.Rows)
-            {
-                if (!row.IsNewRow)
-                {
-                    total += Convert.ToDecimal(row.Cells["SubtotalCarrito"].Value);
-                }
-            }
-
-            lblTotal.Text = total.ToString("C2");
+            Menu Return = new Menu();
+            Return.Show();
+            this.Hide();
         }
     }
 }

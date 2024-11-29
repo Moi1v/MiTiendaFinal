@@ -155,7 +155,7 @@ namespace MiTienda
         {
             string query = "SELECT * FROM Products";
 
-            // Ruta de la carpeta de imágenes
+            
             string rutaCarpeta = Path.Combine(Application.StartupPath, "Images");
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -170,25 +170,7 @@ namespace MiTienda
                     {
                         while (reader.Read())
                         {
-                            string mensaje = $"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}";
-
-                            string codigoProducto = reader["Codigo"].ToString();
-
-                            string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
-
-                            if (File.Exists(rutaImagen))
-                            {
-                                pictureBoxProducto.Image = Image.FromFile(rutaImagen);
-                            }
-                            else
-                            {
-                                pictureBoxProducto.Image = null; 
-                                MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
-                            }
-
-
-                            MessageBox.Show(mensaje, "Información del Producto");
-
+                            MessageBox.Show($"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}");
 
                         }
                     }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Clientes));
             NIT = new Label();
             NAME = new Label();
             Apellido = new Label();
@@ -41,10 +42,12 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             BtnBuscar = new Button();
             BtnEliminar = new Button();
-            BtnUpdate = new Button();
             CustomerID = new Label();
             txtCustomerID = new TextBox();
             btnAgregar = new Button();
+            btnactualizar = new Button();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // NIT
@@ -156,16 +159,6 @@
             BtnEliminar.UseVisualStyleBackColor = true;
             BtnEliminar.Click += BtnEliminar_Click;
             // 
-            // BtnUpdate
-            // 
-            BtnUpdate.Location = new Point(621, 315);
-            BtnUpdate.Name = "BtnUpdate";
-            BtnUpdate.Size = new Size(107, 43);
-            BtnUpdate.TabIndex = 13;
-            BtnUpdate.Text = "Regresar";
-            BtnUpdate.UseVisualStyleBackColor = true;
-            BtnUpdate.Click += BtnUpdate_Click;
-            // 
             // CustomerID
             // 
             CustomerID.AutoSize = true;
@@ -192,15 +185,37 @@
             btnAgregar.UseVisualStyleBackColor = true;
             btnAgregar.Click += btnAgregar_Click;
             // 
+            // btnactualizar
+            // 
+            btnactualizar.Location = new Point(621, 317);
+            btnactualizar.Name = "btnactualizar";
+            btnactualizar.Size = new Size(107, 41);
+            btnactualizar.TabIndex = 17;
+            btnactualizar.Text = "Actualizar Datos";
+            btnactualizar.UseVisualStyleBackColor = true;
+            btnactualizar.Click += btnactualizar_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(758, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(30, 28);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 18;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // Clientes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(pictureBox1);
+            Controls.Add(btnactualizar);
             Controls.Add(btnAgregar);
             Controls.Add(txtCustomerID);
             Controls.Add(CustomerID);
-            Controls.Add(BtnUpdate);
             Controls.Add(BtnEliminar);
             Controls.Add(BtnBuscar);
             Controls.Add(flowLayoutPanel1);
@@ -216,6 +231,7 @@
             Controls.Add(NIT);
             Name = "Clientes";
             Text = "Clientes";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -235,9 +251,10 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button BtnBuscar;
         private Button BtnEliminar;
-        private Button BtnUpdate;
         private Label CustomerID;
         private TextBox txtCustomerID;
         private Button btnAgregar;
+        private Button btnactualizar;
+        private PictureBox pictureBox1;
     }
 }
