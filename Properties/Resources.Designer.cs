@@ -59,5 +59,78 @@ namespace MiTienda.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap images {
+            get {
+                object obj = ResourceManager.GetObject("images", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap images__1_ {
+            get {
+                object obj = ResourceManager.GetObject("images (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_clipart_computer_mouse_logitech_gaming_mouse_g_pro_pelihiiri_scroll_wheel_computer_mouse_electronics_mouse {
+            get {
+                object obj = ResourceManager.GetObject("png-clipart-computer-mouse-logitech-gaming-mouse-g-pro-pelihiiri-scroll-wheel-com" +
+                        "puter-mouse-electronics-mouse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_transparent_computer_monitors_4k_resolution_display_resolution_1080p_monitors_gadget_electronics_computer {
+            get {
+                object obj = ResourceManager.GetObject("png-transparent-computer-monitors-4k-resolution-display-resolution-1080p-monitors" +
+                        "-gadget-electronics-computer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_transparent_headphones_beats_electronics_wireless_outdoor_tech_privates_sound_headphones_electronics_bluetooth_sound_thumbnail {
+            get {
+                object obj = ResourceManager.GetObject("png-transparent-headphones-beats-electronics-wireless-outdoor-tech-privates-sound" +
+                        "-headphones-electronics-bluetooth-sound-thumbnail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pngtree_laptop_icon_png_image_1871608 {
+            get {
+                object obj = ResourceManager.GetObject("pngtree-laptop-icon-png-image_1871608", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pngtree_white_computer_keyboard_png_image_2852576 {
+            get {
+                object obj = ResourceManager.GetObject("pngtree-white-computer-keyboard-png-image_2852576", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

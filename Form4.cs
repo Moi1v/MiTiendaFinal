@@ -170,35 +170,36 @@ namespace MiTienda
                     {
                         while (reader.Read())
                         {
-<<<<<<< HEAD
+
                             MessageBox.Show($"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}");
-                            
-                        }
-=======
-                            string mensaje = $"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}";
->>>>>>> 703f82c678f29b65f8849202881ca879a8fa8be0
-
-                            string codigoProducto = reader["Codigo"].ToString();
-
-                            string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
-
-                            if (File.Exists(rutaImagen))
-                            {
-                                pictureBoxProducto.Image = Image.FromFile(rutaImagen);
-                            }
-                            else
-                            {
-                                pictureBoxProducto.Image = null; 
-                                MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
-                            }
-
-
-                            MessageBox.Show(mensaje, "Información del Producto");
-
 
                         }
+
+                        string mensaje = $"{reader["ProductID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}, {reader[6]}";
+
+
+                        string codigoProducto = reader["Codigo"].ToString();
+
+                        string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
+
+                        if (File.Exists(rutaImagen))
+                        {
+                            pictureBoxProducto.Image = Image.FromFile(rutaImagen);
+                        }
+                        else
+                        {
+                            pictureBoxProducto.Image = null;
+                            MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
+                        }
+
+
+                        MessageBox.Show(mensaje, "Información del Producto");
+
+
                     }
                 }
+
+
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error {ex.Message}");
