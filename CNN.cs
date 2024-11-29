@@ -15,13 +15,13 @@ namespace ConexionSQLAzure
         private readonly string _connectionString;
         private SqlConnection _connection;
 
-        // Constructor que recibe la cadena de conexión
+
         public AzureSqlConnection(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        // Método para abrir la conexión
+
         public void OpenConnection()
         {
             try
@@ -37,7 +37,6 @@ namespace ConexionSQLAzure
             }
         }
 
-        // Método para cerrar la conexión
         public void CloseConnection()
         {
             try
@@ -55,7 +54,7 @@ namespace ConexionSQLAzure
             }
         }
 
-        // Método para ejecutar una consulta y retornar un DataTable
+ 
         public DataTable ExecuteQuery(string query)
         {
             try
@@ -77,7 +76,6 @@ namespace ConexionSQLAzure
             }
         }
 
-        // Método para ejecutar un comando (INSERT, UPDATE, DELETE)
         public int ExecuteNonQuery(string commandText)
         {
             try
