@@ -34,6 +34,7 @@
             textBoxSearch = new TextBox();
             buttonConfirmSale = new Button();
             label1 = new Label();
+            btnreturn = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ShowProductImage).BeginInit();
             SuspendLayout();
@@ -94,11 +95,22 @@
             label1.TabIndex = 5;
             label1.Text = "Buscar:";
             // 
+            // btnreturn
+            // 
+            btnreturn.Location = new Point(225, 275);
+            btnreturn.Name = "btnreturn";
+            btnreturn.Size = new Size(102, 50);
+            btnreturn.TabIndex = 6;
+            btnreturn.Text = "Return";
+            btnreturn.UseVisualStyleBackColor = true;
+            btnreturn.Click += btnreturn_Click;
+            // 
             // Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnreturn);
             Controls.Add(label1);
             Controls.Add(buttonConfirmSale);
             Controls.Add(textBoxSearch);
@@ -122,5 +134,6 @@
         private TextBox textBoxSearch;
         private Button buttonConfirmSale;
         private Label label1;
+        private Button btnreturn;
     }
 }

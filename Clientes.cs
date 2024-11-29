@@ -133,10 +133,54 @@ namespace MiTienda
 
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-           Menu Return = new Menu();
+            Menu Return = new Menu();
             Return.Show();
             this.Hide();
         }
-     }
- }
+
+        private void btnactualizar_Click(object sender, EventArgs e)
+        {
+            string query = "UPDATE Customers SET  FirstName = @FirstName, LastName = @LastName, Address = @Address, Phone = @Phone WHERE NIT = @NIT";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", txtName.Text);
+                        command.Parameters.AddWithValue("@LastName", txtLastName.Text);
+                        command.Parameters.AddWithValue("@NIT", txtNIT.Text);
+                        command.Parameters.AddWithValue("@Address", txtAddress.Text);
+                        command.Parameters.AddWithValue("@Phone", txtPhone.Text);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Producto actualizado correctamente en la base de datos.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Producto no encontrado.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al actualizar el producto: {ex.Message}");
+                }
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Menu Return = new Menu();
+            Return.Show();
+            this.Hide();
+        }
+    }
+}
 

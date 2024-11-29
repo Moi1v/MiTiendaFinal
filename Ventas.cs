@@ -91,18 +91,15 @@ namespace MiTienda
         {
             if (e.RowIndex >= 0)
             {
-             
                 int productId = Convert.ToInt32(dataGridViewProducts.Rows[e.RowIndex].Cells["ProductID"].Value);
                 string productName = dataGridViewProducts.Rows[e.RowIndex].Cells["Name"].Value.ToString();
                 decimal productPrice = Convert.ToDecimal(dataGridViewProducts.Rows[e.RowIndex].Cells["Price"].Value);
 
-           
                 bool productExists = false;
                 foreach (DataRow row in carrito.Rows)
                 {
                     if (Convert.ToInt32(row["ProductID"]) == productId)
                     {
-                   
                         row["Quantity"] = Convert.ToInt32(row["Quantity"]) + 1;
                         row["Total"] = Convert.ToDecimal(row["Quantity"]) * productPrice;
                         productExists = true;
@@ -110,17 +107,16 @@ namespace MiTienda
                     }
                 }
 
+                // Si el producto no existe en el carrito, agregarlo
                 if (!productExists)
                 {
-                  
                     carrito.Rows.Add(productId, productName, productPrice, 1, productPrice);
                 }
 
-               
-                UpdateTotal();
+                UpdateTotal();  // Actualizar el total del carrito
             }
-
         }
+
         private void UpdateTotal()
         {
             decimal total = 0;
@@ -133,6 +129,7 @@ namespace MiTienda
 
         private void buttonConfirmSale_Click(object sender, EventArgs e)
         {
+            // Pasar el carrito al formulario Facturaciones
             if (carrito.Rows.Count > 0)
             {
                 decimal total = 0;
@@ -141,17 +138,28 @@ namespace MiTienda
                     total += Convert.ToDecimal(row["Total"]);
                 }
 
-
-
                 MessageBox.Show($"Venta confirmada. Total: {total:C2}");
-                carrito.Clear();
-                UpdateTotal();
+
+                // Crea una nueva instancia de Facturaciones y pasa el carrito
+                Facturaciones facturacionForm = new Facturaciones(carrito);
+                facturacionForm.Show();
+
+                // Oculta el formulario actual
+                this.Hide();
             }
             else
             {
                 MessageBox.Show("No se ha seleccionado ningún producto.");
             }
-        
+
+
+        }
+
+        private void btnreturn_Click(object sender, EventArgs e)
+        {
+            Menu Return = new Menu();
+            Return.Show();
+            this.Hide();
         }
     }
 }
