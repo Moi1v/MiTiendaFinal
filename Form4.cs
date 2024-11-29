@@ -188,6 +188,36 @@ namespace MiTienda
             designedForm.Show();
             this.Hide();
         }
+        private void dgvProductos_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridViewProductos.SelectedRows.Count > 0)
+                {
+                    string codigoProducto = dataGridViewProductos.SelectedRows[0].Cells["Codigo"].Value.ToString();
+
+                    string rutaCarpeta = Path.Combine(Application.StartupPath, "Images");
+
+                    string rutaImagen = Path.Combine(rutaCarpeta, $"{codigoProducto}.jpg");
+
+                    if (File.Exists(rutaImagen))
+                    {
+                        pictureBoxProducto.Image = Image.FromFile(rutaImagen);
+                    }
+                    else
+                    {
+                        pictureBoxProducto.Image = null;
+                        MessageBox.Show($"No se encontró una imagen para el producto: {codigoProducto}", "Imagen no disponible");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al cargar la imagen: {ex.Message}", "Error");
+            }
+        }
+
+
     }
 }
 
