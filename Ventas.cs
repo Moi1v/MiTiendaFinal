@@ -40,7 +40,19 @@ namespace MiTienda
 
         private void LoadProducts()
         {
-            string query = "SELECT ProductID, Code, Name, Price FROM Products";
+            string query = @"
+                            SELECT 
+                                Sales.SaleID as ID,
+                                Employees.FirstName + ' ' + Employees.LastName AS [Nombre del Empleado],
+                                Customers.FirstName + ' ' + Customers.LastName AS [Nombre del Cliente],
+                                Customers.NIT,
+                                COUNT(SaleDetails.ProductID) AS [Total de Productos],
+                                Sales.Total
+                            FROM Sales
+                            JOIN Employees ON Sales.EmployeeID = Employees.EmployeeID
+                            JOIN Customers ON Sales.CustomerID = Customers.CustomerID
+                            JOIN SaleDetails ON Sales.SaleID = SaleDetails.SaleID
+                            GROUP BY Sales.SaleID, Employees.FirstName, Employees.LastName, Customers.FirstName, Customers.LastName, Customers.NIT, Sales.Total";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -139,10 +151,12 @@ namespace MiTienda
                 }
 
                 MessageBox.Show($"Venta confirmada. Total: {total:C2}");
+                Facturaciones DesignerShow = new Facturaciones();
+                DesignerShow.Show();
 
                 // Crea una nueva instancia de Facturaciones y pasa el carrito
-                Facturaciones facturacionForm = new Facturaciones(carrito);
-                facturacionForm.Show();
+                //Facturaciones facturacionForm = new Facturaciones(carrito);
+                //facturacionForm.Show();
 
                 // Oculta el formulario actual
                 this.Hide();

@@ -28,91 +28,140 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BtnFinalizar = new Button();
             label4 = new Label();
-            txtIDCustomer = new TextBox();
-            dataGridViewFacturacion = new DataGridView();
             label1 = new Label();
-            txtEmpleado = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewFacturacion).BeginInit();
+            BtnRegresar = new Button();
+            flpProductos = new FlowLayoutPanel();
+            listBoxFactura = new ListBox();
+            lblTotal = new Label();
+            cmbClientes = new ComboBox();
+            cmbEmpleados = new ComboBox();
+            btnVenta = new Button();
             SuspendLayout();
-            // 
-            // BtnFinalizar
-            // 
-            BtnFinalizar.Location = new Point(161, 298);
-            BtnFinalizar.Name = "BtnFinalizar";
-            BtnFinalizar.Size = new Size(107, 47);
-            BtnFinalizar.TabIndex = 4;
-            BtnFinalizar.Text = "Guardar Venta";
-            BtnFinalizar.UseVisualStyleBackColor = true;
-            BtnFinalizar.Click += BtnFinalizar_Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(21, 70);
+            label4.Location = new Point(30, 47);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(75, 15);
+            label4.Size = new Size(65, 25);
             label4.TabIndex = 6;
-            label4.Text = "ID De Cliente";
-            // 
-            // txtIDCustomer
-            // 
-            txtIDCustomer.Location = new Point(161, 61);
-            txtIDCustomer.Name = "txtIDCustomer";
-            txtIDCustomer.Size = new Size(138, 23);
-            txtIDCustomer.TabIndex = 8;
-            // 
-            // dataGridViewFacturacion
-            // 
-            dataGridViewFacturacion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewFacturacion.Location = new Point(390, 61);
-            dataGridViewFacturacion.Name = "dataGridViewFacturacion";
-            dataGridViewFacturacion.Size = new Size(412, 237);
-            dataGridViewFacturacion.TabIndex = 9;
+            label4.Text = "Cliente";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(21, 101);
+            label1.Location = new Point(409, 47);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(74, 15);
+            label1.Size = new Size(96, 25);
             label1.TabIndex = 12;
-            label1.Text = "ID Empleado";
+            label1.Text = "Empleado:";
             // 
-            // txtEmpleado
+            // BtnRegresar
             // 
-            txtEmpleado.Location = new Point(161, 93);
-            txtEmpleado.Name = "txtEmpleado";
-            txtEmpleado.Size = new Size(138, 23);
-            txtEmpleado.TabIndex = 14;
+            BtnRegresar.Location = new Point(1009, 652);
+            BtnRegresar.Margin = new Padding(4, 5, 4, 5);
+            BtnRegresar.Name = "BtnRegresar";
+            BtnRegresar.Size = new Size(136, 78);
+            BtnRegresar.TabIndex = 18;
+            BtnRegresar.Text = "Return";
+            BtnRegresar.UseVisualStyleBackColor = true;
+            BtnRegresar.Click += BtnRegresar_Click;
+            // 
+            // flpProductos
+            // 
+            flpProductos.AutoScroll = true;
+            flpProductos.Location = new Point(30, 140);
+            flpProductos.Margin = new Padding(4, 5, 4, 5);
+            flpProductos.Name = "flpProductos";
+            flpProductos.Size = new Size(740, 568);
+            flpProductos.TabIndex = 19;
+            // 
+            // listBoxFactura
+            // 
+            listBoxFactura.FormattingEnabled = true;
+            listBoxFactura.ItemHeight = 25;
+            listBoxFactura.Location = new Point(804, 102);
+            listBoxFactura.Margin = new Padding(4, 5, 4, 5);
+            listBoxFactura.Name = "listBoxFactura";
+            listBoxFactura.Size = new Size(338, 454);
+            listBoxFactura.TabIndex = 20;
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Location = new Point(1009, 582);
+            lblTotal.Margin = new Padding(4, 0, 4, 0);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(59, 25);
+            lblTotal.TabIndex = 21;
+            lblTotal.Text = "label2";
+            // 
+            // cmbClientes
+            // 
+            cmbClientes.FormattingEnabled = true;
+            cmbClientes.Location = new Point(163, 47);
+            cmbClientes.Margin = new Padding(4, 5, 4, 5);
+            cmbClientes.Name = "cmbClientes";
+            cmbClientes.Size = new Size(171, 33);
+            cmbClientes.TabIndex = 22;
+            // 
+            // cmbEmpleados
+            // 
+            cmbEmpleados.FormattingEnabled = true;
+            cmbEmpleados.Location = new Point(520, 47);
+            cmbEmpleados.Margin = new Padding(4, 5, 4, 5);
+            cmbEmpleados.Name = "cmbEmpleados";
+            cmbEmpleados.Size = new Size(171, 33);
+            cmbEmpleados.TabIndex = 23;
+            cmbEmpleados.SelectedIndexChanged += cmbEmpleados_SelectedIndexChanged;
+            // 
+            // btnVenta
+            // 
+            btnVenta.Location = new Point(840, 650);
+            btnVenta.Margin = new Padding(4, 5, 4, 5);
+            btnVenta.Name = "btnVenta";
+            btnVenta.Size = new Size(147, 82);
+            btnVenta.TabIndex = 24;
+            btnVenta.Text = "Venta";
+            btnVenta.UseVisualStyleBackColor = true;
+            btnVenta.Click += btnVenta_Click;
             // 
             // Facturaciones
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(814, 450);
-            Controls.Add(txtEmpleado);
+            ClientSize = new Size(1163, 750);
+            Controls.Add(btnVenta);
+            Controls.Add(cmbEmpleados);
+            Controls.Add(cmbClientes);
+            Controls.Add(lblTotal);
+            Controls.Add(listBoxFactura);
+            Controls.Add(flpProductos);
+            Controls.Add(BtnRegresar);
             Controls.Add(label1);
-            Controls.Add(dataGridViewFacturacion);
-            Controls.Add(txtIDCustomer);
             Controls.Add(label4);
-            Controls.Add(BtnFinalizar);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Facturaciones";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Facturaciones";
-            ((System.ComponentModel.ISupportInitialize)dataGridViewFacturacion).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private TextBox txtNIT;
-        private Button BtnFinalizar;
         private Label label4;
         private TextBox txtIDProducto;
-        private TextBox txtIDCustomer;
-        private DataGridView dataGridViewFacturacion;
         private Label label1;
-        private TextBox txtEmpleado;
+        private Button BtnRegresar;
+        private FlowLayoutPanel flpProductos;
+        private ListBox listBoxFactura;
+        private Label lblTotal;
+        private ComboBox cmbClientes;
+        private ComboBox cmbEmpleados;
+        private Button btnVenta;
     }
 }

@@ -117,6 +117,7 @@
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "log_in";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "log in";
             Load += log_in_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

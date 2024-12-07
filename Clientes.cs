@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using MiTienda.conexion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,46 +15,107 @@ namespace MiTienda
 {
     public partial class Clientes : Form
     {
-        private string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+        private SqlConnection connection = DBConexion.GetInstance().GetConnection();
+
 
         public Clientes()
         {
             InitializeComponent();
+            CargarCliente();
+            dataGridViewCliente.SelectionChanged += ClienteTable_SelectionChanged;
+        }
+
+
+        private void CargarCliente()
+        {
+            string query = "SELECT CustomerID as ID, NIT, FirstName as Nombre, LastName as Apellido, Address as Dirección, Phone as Teléfono FROM Customers";
+
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, this.connection);
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+
+                dataGridViewCliente.DataSource = dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void ClienteTable_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewCliente.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewCliente.SelectedRows[0];
+                txtNIT.Text = selectedRow.Cells["NIT"].Value.ToString();
+                txtName.Text = selectedRow.Cells["Nombre"].Value.ToString();
+                txtLastName.Text = selectedRow.Cells["Apellido"].Value.ToString();
+                txtAddress.Text = selectedRow.Cells["Dirección"].Value.ToString();
+                txtSearch.Text = selectedRow.Cells["Teléfono"].Value.ToString();
+
+
+                btnAgregar.Enabled = false;
+                btnactualizar.Enabled = true;
+            }
+            else
+            {
+
+                btnAgregar.Enabled = true;
+                btnactualizar.Enabled = false;
+            }
         }
 
         private void BtnEliminar_Click(object sender, EventArgs e)
         {
-            int CustomerID = int.Parse(txtCustomerID.Text.Trim());
+
+            int customerId = Convert.ToInt32(dataGridViewCliente.SelectedRows[0].Cells["ID"].Value);
 
             string query = "DELETE FROM Customers WHERE CustomerID = @CustomerID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                try
+                if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
+                }
 
-                    SqlCommand command = new SqlCommand(query, connection);
-
-                    command.Parameters.AddWithValue("@CustomerID", CustomerID);
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerID", customerId);
 
                     int rowsAffected = command.ExecuteNonQuery();
-
-
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show("Cliente eliminado exitosamente.");
+                        MessageBox.Show("Cliente eliminado.");
+                        CargarCliente();
+
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo encontrar el Cliente para eliminar.");
+                        MessageBox.Show("No se pudo eliminar el cliente.");
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
                 {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    connection.Close();
                 }
             }
+
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -62,16 +124,19 @@ namespace MiTienda
             string customerFirstName = txtName.Text.Trim();
             string customerLastName = txtLastName.Text.Trim();
             string customerAddress = txtAddress.Text.Trim();
-            string customerPhone = txtPhone.Text.Trim();
+            string customerPhone = txtSearch.Text.Trim();
 
             string query = "INSERT INTO Customers (NIT, FirstName, LastName, Address, Phone) " +
                            "VALUES (@NIT, @FirstName, @LastName, @Address, @Phone)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+
             {
                 try
                 {
-                    connection.Open();
+                    if (connection.State == ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
 
                     SqlCommand command = new SqlCommand(query, connection);
 
@@ -87,6 +152,7 @@ namespace MiTienda
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Cliente agregado exitosamente.");
+                        CargarCliente();
                     }
                     else
                     {
@@ -97,40 +163,70 @@ namespace MiTienda
                 {
                     MessageBox.Show($"Error: {ex.Message}");
                 }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
+                }
             }
         }
+
 
         private void BtnBuscar_Click(object sender, EventArgs e)
         {
-            string query = "SELECT * FROM Customers";
+            string searchText = txtSearch.Text.Trim();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            string query;
+
+            if (string.IsNullOrEmpty(searchText))
             {
+                query = "SELECT CustomerID as ID, NIT, FirstName as Nombre, LastName as Apellido, Address as Dirección, Phone as Teléfono FROM Customers";
+            }
+            else
+            {
+                query = "SELECT CustomerID as ID, NIT, FirstName as Nombre, LastName as Apellido, Address as Dirección, Phone as Teléfono " +
+                        "FROM Customers WHERE FirstName LIKE @search OR LastName LIKE @search";
+            }
+
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    cmd.Parameters.AddWithValue("@search", "%" + searchText + "%");
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+
                 try
                 {
-                    connection.Open();
-
-                    SqlCommand command = new SqlCommand(query, connection);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    if (connection.State != ConnectionState.Open)
                     {
-                        while (reader.Read())
-                        {
-                            MessageBox.Show($"{reader["CustomerID"]}, {reader[1]}, {reader[2]}, {reader[3]}, {reader[4]}, {reader[5]}");
-                        }
-
+                        connection.Open();
                     }
+
+                    da.Fill(dt);
+
+                    dataGridViewCliente.DataSource = dt;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error {ex.Message}");
+
+                    MessageBox.Show("Error al realizar la búsqueda: " + ex.Message);
+                }
+                finally
+                {
+
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
                 }
             }
-
-
-
         }
-
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
             Menu Return = new Menu();
@@ -142,11 +238,13 @@ namespace MiTienda
         {
             string query = "UPDATE Customers SET  FirstName = @FirstName, LastName = @LastName, Address = @Address, Phone = @Phone WHERE NIT = @NIT";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    connection.Open();
+                    if (connection.State == ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -154,23 +252,31 @@ namespace MiTienda
                         command.Parameters.AddWithValue("@LastName", txtLastName.Text);
                         command.Parameters.AddWithValue("@NIT", txtNIT.Text);
                         command.Parameters.AddWithValue("@Address", txtAddress.Text);
-                        command.Parameters.AddWithValue("@Phone", txtPhone.Text);
+                        command.Parameters.AddWithValue("@Phone", txtSearch.Text);
 
                         int rowsAffected = command.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {
-                            MessageBox.Show("Producto actualizado correctamente en la base de datos.");
+                            MessageBox.Show("Cliente actualizado.");
+                            CargarCliente();
                         }
                         else
                         {
-                            MessageBox.Show("Producto no encontrado.");
+                            MessageBox.Show("Cliente no encontrado.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al actualizar el producto: {ex.Message}");
+                    MessageBox.Show($"Error al actualizar el cliente: {ex.Message}");
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
@@ -180,6 +286,11 @@ namespace MiTienda
             Menu Return = new Menu();
             Return.Show();
             this.Hide();
+        }
+
+        private void txtCustomerID_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

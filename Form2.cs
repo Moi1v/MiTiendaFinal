@@ -88,5 +88,12 @@ namespace MiTienda
             formsfacturas.Show();
             this.Hide();
         }
+
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            Facturaciones facturaciones = new Facturaciones();
+            facturaciones.Show();
+            this.Hide();
+        }
     }
 }

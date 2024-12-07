@@ -39,12 +39,15 @@
             label4 = new Label();
             pictureBox5 = new PictureBox();
             pictureBox6 = new PictureBox();
+            label5 = new Label();
+            pictureBox7 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -145,18 +148,41 @@
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(54, 105);
+            pictureBox6.Location = new Point(156, 142);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(755, 240);
             pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox6.TabIndex = 9;
             pictureBox6.TabStop = false;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            label5.Location = new Point(907, 85);
+            label5.Name = "label5";
+            label5.Size = new Size(79, 17);
+            label5.TabIndex = 11;
+            label5.Text = "Facturación";
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(834, 12);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(190, 65);
+            pictureBox7.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox7.TabIndex = 10;
+            pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
+            // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(821, 450);
+            ClientSize = new Size(1101, 450);
+            Controls.Add(label5);
+            Controls.Add(pictureBox7);
             Controls.Add(pictureBox6);
             Controls.Add(pictureBox5);
             Controls.Add(label4);
@@ -169,6 +195,7 @@
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Menu";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -176,6 +203,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -192,5 +220,7 @@
         private Label label4;
         private PictureBox pictureBox5;
         private PictureBox pictureBox6;
+        private Label label5;
+        private PictureBox pictureBox7;
     }
 }

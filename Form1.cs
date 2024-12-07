@@ -6,7 +6,7 @@ namespace MiTienda
 {
     public partial class log_in : Form
     {
-        private AzureSqlConnection _connection;
+        
 
         public log_in()
         {

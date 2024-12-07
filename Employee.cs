@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using MiTienda.conexion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,39 +14,86 @@ namespace MiTienda
 {
     public partial class Employee : Form
     {
-        private string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
+        private SqlConnection connection = DBConexion.GetInstance().GetConnection();
 
         public Employee()
         {
             InitializeComponent();
+            CargarEmployee();
+            dataGridViewEmployee.SelectionChanged += EmployeeTable_SelectionChanged;
+        }
+
+
+        private void CargarEmployee()
+        {
+            string query = "SELECT EmployeeID as ID, FirstName as Nombre, LastName as Apellido, IdentificationNumber as Identificación, Position as Cargo, Username as Usuario FROM Employees";
+
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, this.connection);
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+
+                dataGridViewEmployee.DataSource = dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+
+        private void EmployeeTable_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewEmployee.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewEmployee.SelectedRows[0];
+                txtName.Text = selectedRow.Cells["Nombre"].Value.ToString();
+                txtLastname.Text = selectedRow.Cells["Apellido"].Value.ToString();
+                txtID.Text = selectedRow.Cells["ID"].Value.ToString();
+                txtCargo.Text = selectedRow.Cells["Cargo"].Value.ToString();
+                txtUser.Text = selectedRow.Cells["Usuario"].Value.ToString();
+
+
+                button1.Enabled = false;
+                //btnactualizar.Enabled = true;
+            }
+            else
+            {
+
+                button1.Enabled = true;
+                //btnactualizar.Enabled = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string Name = txtName.Text.Trim();
-            string LastName = txtLastname.Text.Trim();
-            string DPI = txtDPI.Text.Trim();
-            string Cargo = txtCargo.Text.Trim();
-            string User = txtUser.Text.Trim();
-            string PasswordUser = txtPassword.Text.Trim();
-
             string query = "INSERT INTO Employees (FirstName, LastName, IdentificationNumber, Position, Username, PasswordHash) " +
                            "VALUES (@FirstName, @LastName, @IdentificationNumber, @Position, @Username, @PasswordHash)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+
             {
                 try
                 {
-                    connection.Open();
+                    if (connection.State == ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
 
                     SqlCommand command = new SqlCommand(query, connection);
 
-                    command.Parameters.AddWithValue("@FirstName", Name);
-                    command.Parameters.AddWithValue("@LastName", LastName);
-                    command.Parameters.AddWithValue("@IdentificationNumber", DPI);
-                    command.Parameters.AddWithValue("@Position", Cargo);
-                    command.Parameters.AddWithValue("@Username", User);
-                    command.Parameters.AddWithValue("@PasswordHash", PasswordUser);
+                    command.Parameters.AddWithValue("@FirstName", txtName.Text);
+                    command.Parameters.AddWithValue("@LastName", txtLastname.Text);
+                    command.Parameters.AddWithValue("@IdentificationNumber", txtID.Text);
+                    command.Parameters.AddWithValue("@Position", txtCargo.Text);
+                    command.Parameters.AddWithValue("@Username", txtUser.Text);
+                    command.Parameters.AddWithValue("@PasswordHash", txtPassword.Text);
 
 
                     int rowsAffected = command.ExecuteNonQuery();
@@ -53,6 +101,7 @@ namespace MiTienda
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Empleado agregado exitosamente.");
+                        CargarEmployee();
                     }
                     else
                     {
@@ -62,6 +111,13 @@ namespace MiTienda
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error: {ex.Message}");
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
@@ -76,7 +132,6 @@ namespace MiTienda
 
             string query = "DELETE FROM Employees WHERE EmployeeID = @EmployeeID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -121,19 +176,17 @@ namespace MiTienda
 
         private void BtnEliminar_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtEmployeeID.Text.Trim(), out int EmployeeIDR))
-            {
-                MessageBox.Show("Por favor, ingresa un ID válido.");
-                return;
-            }
+            int employeeId = Convert.ToInt32(dataGridViewEmployee.SelectedRows[0].Cells["ID"].Value);
 
             string query = "DELETE FROM Employees WHERE EmployeeID = @EmployeeID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    connection.Open();
+                    if (connection.State == ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
 
                     var confirmResult = MessageBox.Show("¿Estás seguro de que deseas eliminar este empleado?",
                                                         "Confirmar eliminación",
@@ -146,13 +199,14 @@ namespace MiTienda
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.Add("@EmployeeID", SqlDbType.Int).Value = EmployeeIDR;
+                        command.Parameters.Add("@EmployeeID", SqlDbType.Int).Value = employeeId;
 
                         int rowsAffected = command.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("Empleado eliminado exitosamente.");
+                            CargarEmployee();
                         }
                         else
                         {
@@ -168,39 +222,62 @@ namespace MiTienda
                 {
                     MessageBox.Show($"Error inesperado: {ex.Message}");
                 }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
+                }
             }
         }
 
         private void BtnMostrar_Click(object sender, EventArgs e)
         {
-            string query = "SELECT * FROM Employees";
+            int employeeId = Convert.ToInt32(dataGridViewEmployee.SelectedRows[0].Cells["ID"].Value);
+            string query = "UPDATE Employees SET FirstName = @FirstName, LastName = @LastName, IdentificationNumber = @IdentificationNumber, Position = @Position, Username = @Username, PasswordHash = @Password where EmployeeID = @EmployeeID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    connection.Open();
-
-                    SqlCommand command = new SqlCommand(query, connection);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    if (connection.State == ConnectionState.Closed)
                     {
-                        while (reader.Read())
-                        {
-                            MessageBox.Show($"Id Empleado: {reader["EmployeeID"]}, " +
-                                            $"Nombre: {reader[1]}, " +
-                                            $"Apellido: {reader[2]}, " +
-                                            $"DPI: {reader[3]}, " +
-                                            $"Cargo: {reader[4]}, " +
-                                            $"UserName: {reader[5]}, " +
-                                            $"Password: {reader [6]}");
-                        }
+                        connection.Open();
+                    }
 
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@EmployeeID", employeeId);
+                        command.Parameters.AddWithValue("@FirstName", txtName.Text);
+                        command.Parameters.AddWithValue("@LastName", txtLastname.Text);
+                        command.Parameters.AddWithValue("@IdentificationNumber", txtID.Text);
+                        command.Parameters.AddWithValue("@Position", txtCargo.Text);
+                        command.Parameters.AddWithValue("@Username", txtUser.Text);
+                        command.Parameters.AddWithValue("@Password", txtPassword.Text);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Empleado actualizado.");
+                            CargarEmployee();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Empleado no encontrado.");
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error {ex.Message}");
+                    MessageBox.Show($"Error al actualizar el empleado: {ex.Message}");
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
@@ -210,6 +287,60 @@ namespace MiTienda
             Menu Return = new Menu();
             Return.Show();
             this.Hide();
+        }
+
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.Trim();
+
+            string query;
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                query = "SELECT EmployeeID as ID, IdentificationNumber as Cargo ,Position as Cargo, FirstName as Nombre, LastName as Apellido, Username as Usuario FROM Employees";
+            }
+            else
+            {
+                query = "SELECT EmployeeID as ID, IdentificationNumber as Cargo ,Position as Cargo, FirstName as Nombre, LastName as Apellido, Username as Usuario " +
+                        "FROM Employees WHERE IdentificationNumber LIKE @search OR FirstName LIKE @search OR Username LIKE @search";
+            }
+
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    cmd.Parameters.AddWithValue("@search", "%" + searchText + "%");
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+
+                    da.Fill(dt);
+
+                    dataGridViewEmployee.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error al realizar la búsqueda: " + ex.Message);
+                }
+                finally
+                {
+
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
+                }
+            }
         }
     }
 }

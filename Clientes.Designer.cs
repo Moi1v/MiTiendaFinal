@@ -38,8 +38,7 @@
             txtName = new TextBox();
             txtLastName = new TextBox();
             txtAddress = new TextBox();
-            txtPhone = new TextBox();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            txtSearch = new TextBox();
             BtnBuscar = new Button();
             BtnEliminar = new Button();
             CustomerID = new Label();
@@ -47,103 +46,107 @@
             btnAgregar = new Button();
             btnactualizar = new Button();
             pictureBox1 = new PictureBox();
+            dataGridViewCliente = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCliente).BeginInit();
             SuspendLayout();
             // 
             // NIT
             // 
             NIT.AutoSize = true;
-            NIT.Location = new Point(38, 85);
+            NIT.Location = new Point(54, 142);
+            NIT.Margin = new Padding(4, 0, 4, 0);
             NIT.Name = "NIT";
-            NIT.Size = new Size(23, 15);
+            NIT.Size = new Size(35, 25);
             NIT.TabIndex = 0;
             NIT.Text = "Nit";
             // 
             // NAME
             // 
             NAME.AutoSize = true;
-            NAME.Location = new Point(38, 117);
+            NAME.Location = new Point(54, 195);
+            NAME.Margin = new Padding(4, 0, 4, 0);
             NAME.Name = "NAME";
-            NAME.Size = new Size(51, 15);
+            NAME.Size = new Size(78, 25);
             NAME.TabIndex = 1;
             NAME.Text = "Nombre";
             // 
             // Apellido
             // 
             Apellido.AutoSize = true;
-            Apellido.Location = new Point(38, 146);
+            Apellido.Location = new Point(54, 243);
+            Apellido.Margin = new Padding(4, 0, 4, 0);
             Apellido.Name = "Apellido";
-            Apellido.Size = new Size(51, 15);
+            Apellido.Size = new Size(78, 25);
             Apellido.TabIndex = 2;
             Apellido.Text = "Apellido";
             // 
             // Direccion
             // 
             Direccion.AutoSize = true;
-            Direccion.Location = new Point(38, 175);
+            Direccion.Location = new Point(54, 292);
+            Direccion.Margin = new Padding(4, 0, 4, 0);
             Direccion.Name = "Direccion";
-            Direccion.Size = new Size(57, 15);
+            Direccion.Size = new Size(85, 25);
             Direccion.TabIndex = 3;
             Direccion.Text = "Direccion";
             // 
             // PHONE
             // 
             PHONE.AutoSize = true;
-            PHONE.Location = new Point(38, 204);
+            PHONE.Location = new Point(54, 340);
+            PHONE.Margin = new Padding(4, 0, 4, 0);
             PHONE.Name = "PHONE";
-            PHONE.Size = new Size(52, 15);
+            PHONE.Size = new Size(67, 25);
             PHONE.TabIndex = 4;
-            PHONE.Text = "Telefono";
+            PHONE.Text = "Buscar:";
             // 
             // txtNIT
             // 
-            txtNIT.Location = new Point(107, 77);
+            txtNIT.Location = new Point(153, 128);
+            txtNIT.Margin = new Padding(4, 5, 4, 5);
             txtNIT.Name = "txtNIT";
-            txtNIT.Size = new Size(100, 23);
+            txtNIT.Size = new Size(141, 31);
             txtNIT.TabIndex = 5;
             // 
             // txtName
             // 
-            txtName.Location = new Point(107, 109);
+            txtName.Location = new Point(153, 182);
+            txtName.Margin = new Padding(4, 5, 4, 5);
             txtName.Name = "txtName";
-            txtName.Size = new Size(100, 23);
+            txtName.Size = new Size(141, 31);
             txtName.TabIndex = 6;
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(107, 138);
+            txtLastName.Location = new Point(153, 230);
+            txtLastName.Margin = new Padding(4, 5, 4, 5);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(100, 23);
+            txtLastName.Size = new Size(141, 31);
             txtLastName.TabIndex = 7;
             // 
             // txtAddress
             // 
-            txtAddress.Location = new Point(107, 167);
+            txtAddress.Location = new Point(153, 278);
+            txtAddress.Margin = new Padding(4, 5, 4, 5);
             txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(100, 23);
+            txtAddress.Size = new Size(141, 31);
             txtAddress.TabIndex = 8;
             // 
-            // txtPhone
+            // txtSearch
             // 
-            txtPhone.Location = new Point(107, 196);
-            txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(100, 23);
-            txtPhone.TabIndex = 9;
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.BackColor = SystemColors.ControlDark;
-            flowLayoutPanel1.ForeColor = SystemColors.ButtonShadow;
-            flowLayoutPanel1.Location = new Point(282, 42);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(446, 222);
-            flowLayoutPanel1.TabIndex = 10;
+            txtSearch.Location = new Point(153, 327);
+            txtSearch.Margin = new Padding(4, 5, 4, 5);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(141, 31);
+            txtSearch.TabIndex = 9;
             // 
             // BtnBuscar
             // 
-            BtnBuscar.Location = new Point(282, 317);
+            BtnBuscar.Location = new Point(403, 528);
+            BtnBuscar.Margin = new Padding(4, 5, 4, 5);
             BtnBuscar.Name = "BtnBuscar";
-            BtnBuscar.Size = new Size(107, 43);
+            BtnBuscar.Size = new Size(153, 72);
             BtnBuscar.TabIndex = 11;
             BtnBuscar.Text = "Buscar";
             BtnBuscar.UseVisualStyleBackColor = true;
@@ -151,9 +154,10 @@
             // 
             // BtnEliminar
             // 
-            BtnEliminar.Location = new Point(395, 317);
+            BtnEliminar.Location = new Point(564, 528);
+            BtnEliminar.Margin = new Padding(4, 5, 4, 5);
             BtnEliminar.Name = "BtnEliminar";
-            BtnEliminar.Size = new Size(107, 43);
+            BtnEliminar.Size = new Size(153, 72);
             BtnEliminar.TabIndex = 12;
             BtnEliminar.Text = "Eliminar";
             BtnEliminar.UseVisualStyleBackColor = true;
@@ -162,24 +166,28 @@
             // CustomerID
             // 
             CustomerID.AutoSize = true;
-            CustomerID.Location = new Point(38, 56);
+            CustomerID.Location = new Point(54, 93);
+            CustomerID.Margin = new Padding(4, 0, 4, 0);
             CustomerID.Name = "CustomerID";
-            CustomerID.Size = new Size(55, 15);
+            CustomerID.Size = new Size(83, 25);
             CustomerID.TabIndex = 14;
             CustomerID.Text = "ClienteID";
             // 
             // txtCustomerID
             // 
-            txtCustomerID.Location = new Point(107, 48);
+            txtCustomerID.Location = new Point(153, 80);
+            txtCustomerID.Margin = new Padding(4, 5, 4, 5);
             txtCustomerID.Name = "txtCustomerID";
-            txtCustomerID.Size = new Size(100, 23);
+            txtCustomerID.Size = new Size(141, 31);
             txtCustomerID.TabIndex = 15;
+            txtCustomerID.TextChanged += txtCustomerID_TextChanged;
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(508, 317);
+            btnAgregar.Location = new Point(726, 528);
+            btnAgregar.Margin = new Padding(4, 5, 4, 5);
             btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(107, 41);
+            btnAgregar.Size = new Size(153, 68);
             btnAgregar.TabIndex = 16;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = true;
@@ -187,9 +195,10 @@
             // 
             // btnactualizar
             // 
-            btnactualizar.Location = new Point(621, 317);
+            btnactualizar.Location = new Point(887, 528);
+            btnactualizar.Margin = new Padding(4, 5, 4, 5);
             btnactualizar.Name = "btnactualizar";
-            btnactualizar.Size = new Size(107, 41);
+            btnactualizar.Size = new Size(153, 68);
             btnactualizar.TabIndex = 17;
             btnactualizar.Text = "Actualizar Datos";
             btnactualizar.UseVisualStyleBackColor = true;
@@ -198,19 +207,31 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(758, 12);
+            pictureBox1.Location = new Point(1083, 20);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(30, 28);
+            pictureBox1.Size = new Size(43, 47);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 18;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // dataGridViewCliente
+            // 
+            dataGridViewCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCliente.Location = new Point(386, 82);
+            dataGridViewCliente.Margin = new Padding(4, 5, 4, 5);
+            dataGridViewCliente.Name = "dataGridViewCliente";
+            dataGridViewCliente.RowHeadersWidth = 62;
+            dataGridViewCliente.Size = new Size(724, 410);
+            dataGridViewCliente.TabIndex = 19;
+            // 
             // Clientes
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1143, 750);
+            Controls.Add(dataGridViewCliente);
             Controls.Add(pictureBox1);
             Controls.Add(btnactualizar);
             Controls.Add(btnAgregar);
@@ -218,8 +239,7 @@
             Controls.Add(CustomerID);
             Controls.Add(BtnEliminar);
             Controls.Add(BtnBuscar);
-            Controls.Add(flowLayoutPanel1);
-            Controls.Add(txtPhone);
+            Controls.Add(txtSearch);
             Controls.Add(txtAddress);
             Controls.Add(txtLastName);
             Controls.Add(txtName);
@@ -229,9 +249,12 @@
             Controls.Add(Apellido);
             Controls.Add(NAME);
             Controls.Add(NIT);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Clientes";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCliente).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -247,8 +270,7 @@
         private TextBox txtName;
         private TextBox txtLastName;
         private TextBox txtAddress;
-        private TextBox txtPhone;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private TextBox txtSearch;
         private Button BtnBuscar;
         private Button BtnEliminar;
         private Label CustomerID;
@@ -256,5 +278,6 @@
         private Button btnAgregar;
         private Button btnactualizar;
         private PictureBox pictureBox1;
+        private DataGridView dataGridViewCliente;
     }
 }

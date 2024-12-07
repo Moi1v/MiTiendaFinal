@@ -10,198 +10,286 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using System.Xml.Linq;
+using MiTienda.conexion;
 
 namespace MiTienda
 {
     public partial class Facturaciones : Form
     {
-        // Propiedad para almacenar el carrito
-        public DataTable Carrito { get; set; }
-        private string connectionString = "Server=localhost,1400;Database=PointOfSale;User Id=sa;Password=S2V@Cs2JOWgQ;TrustServerCertificate=True;";
 
-        // Agregar el carrito al formulario de facturación
-        public Facturaciones(DataTable carrito)
+        private SqlConnection connection = DBConexion.GetInstance().GetConnection();
+        private List<Producto> productosDisponibles = new List<Producto>();
+        private List<Producto> productosSeleccionados = new List<Producto>();
+        private decimal totalFactura = 0;
+
+
+        public Facturaciones()
         {
             InitializeComponent();
-            Carrito = carrito;
-
-            // Aquí se asigna el carrito al DataGridView
-            dataGridViewFacturacion.DataSource = Carrito;
+            CargarProductosDesdeBD();
+            MostrarProductos();
+            CargarClientesYEmpleados();
         }
 
-
-        // Método para registrar la venta
-        private void RegisterSale(int customerId)
+        private void CargarProductosDesdeBD()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            productosDisponibles.Clear();
+            string query = "SELECT ProductID, Code, Name, Description, Price, Stock, ImagePath FROM Products";
+            try
             {
-                conn.Open();
-
-                // Modificar la consulta para no incluir TotalAmount si no existe en la tabla
-                string salesQuery = "INSERT INTO Sales (CustomerID, SaleDate) VALUES (@CustomerID, @SaleDate); SELECT SCOPE_IDENTITY();";
-                SqlCommand salesCmd = new SqlCommand(salesQuery, conn);
-                salesCmd.Parameters.AddWithValue("@CustomerID", customerId);
-                salesCmd.Parameters.AddWithValue("@SaleDate", DateTime.Now);
-
-                // Obtener el SaleID generado
-                int saleId = Convert.ToInt32(salesCmd.ExecuteScalar());
-
-                // Insertar detalles de la venta en SaleDetails
-                foreach (DataRow row in Carrito.Rows)
+                if (connection.State == ConnectionState.Closed)
                 {
-                    int productId = Convert.ToInt32(row["ProductID"]);
-                    int quantity = Convert.ToInt32(row["Quantity"]);
-                    decimal unitPrice = Convert.ToDecimal(row["Price"]);
-
-                    string saleDetailsQuery = "INSERT INTO SaleDetails (SaleID, ProductID, Quantity, UnitPrice) VALUES (@SaleID, @ProductID, @Quantity, @UnitPrice)";
-                    SqlCommand saleDetailsCmd = new SqlCommand(saleDetailsQuery, conn);
-                    saleDetailsCmd.Parameters.AddWithValue("@SaleID", saleId); // Usar el SaleID capturado
-                    saleDetailsCmd.Parameters.AddWithValue("@ProductID", productId);
-                    saleDetailsCmd.Parameters.AddWithValue("@Quantity", quantity);
-                    saleDetailsCmd.Parameters.AddWithValue("@UnitPrice", unitPrice);
-                    saleDetailsCmd.ExecuteNonQuery();
-
-                    // Actualizar el inventario
-                    string updateProductQuery = "UPDATE Products SET Stock = Stock - @Quantity WHERE ProductID = @ProductID";
-                    SqlCommand updateProductCmd = new SqlCommand(updateProductQuery, conn);
-                    updateProductCmd.Parameters.AddWithValue("@Quantity", quantity);
-                    updateProductCmd.Parameters.AddWithValue("@ProductID", productId);
-                    updateProductCmd.ExecuteNonQuery();
+                    connection.Open();
                 }
 
-                // Mostrar resumen de la venta
-                MessageBox.Show($"Venta registrada con éxito. Total: {GetTotalAmount():C2}");
-            }
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
 
-        }
-
-        // Método para calcular el total de la venta
-        private decimal GetTotalAmount()
-        {
-            decimal total = 0;
-            foreach (DataRow row in Carrito.Rows)
-            {
-                total += Convert.ToDecimal(row["Total"]);
-            }
-            return total;
-        }
-
-        // Método para registrar el cliente
-        private int GetCustomerId(string nit, string firstName, string lastName)
-        {
-            // Si el cliente no existe, se crea uno nuevo.
-            if (nit != "CF")
-            {
-                string query = "SELECT CustomerID FROM Customers WHERE NIT = @NIT";
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                while (reader.Read())
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@NIT", nit);
+                    int productid = Convert.ToInt32(reader["ProductID"]);
+                    string code = reader["Code"].ToString();
+                    string name = reader["Name"].ToString();
+                    string description = reader["Description"].ToString();
+                    decimal price = Convert.ToDecimal(reader["Price"]);
+                    int stock = Convert.ToInt32(reader["Stock"]);
+                    string imagePath = reader["ImagePath"].ToString();
 
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
-                    {
-                        return Convert.ToInt32(result);
-                    }
-                    else
-                    {
-                        // Crear cliente nuevo
-                        string insertQuery = "INSERT INTO Customers (NIT, FirstName, LastName) VALUES (@NIT, @FirstName, @LastName)";
-                        SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
-                        insertCmd.Parameters.AddWithValue("@NIT", nit);
-                        insertCmd.Parameters.AddWithValue("@FirstName", firstName);
-                        insertCmd.Parameters.AddWithValue("@LastName", lastName);
-                        insertCmd.ExecuteNonQuery();
 
-                        // Devolver el ID del cliente recién creado
-                        return 0;
-                    }
+                    Producto producto = new Producto(productid, code, name, description, price, stock, imagePath);
+                    productosDisponibles.Add(producto);
                 }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+        private void MostrarProductos()
+        {
+            flpProductos.Controls.Clear();
+
+            foreach (var producto in productosDisponibles)
+            {
+                Panel tarjetaProducto = new Panel();
+                tarjetaProducto.Width = 200;
+                tarjetaProducto.Height = 350;
+                tarjetaProducto.BorderStyle = BorderStyle.FixedSingle;
+                tarjetaProducto.Margin = new Padding(10);
+
+                PictureBox picImagen = new PictureBox
+                {
+                    Image = producto.Imagen,
+                    SizeMode = PictureBoxSizeMode.StretchImage,
+                    Width = 150,
+                    Height = 150,
+                    Location = new Point(25, 10)
+                };
+
+                Label lblNombre = new Label
+                {
+                    Text = producto.Name,
+                    Width = 150,
+                    Location = new Point(25, 170)
+                };
+
+                Label lblPrecio = new Label
+                {
+                    Text = $"Precio: Q{producto.Price}",
+                    Width = 150,
+                    Location = new Point(25, 190)
+                };
+
+                Label lblStock = new Label
+                {
+                    Text = $"Stock: {producto.Stock}",
+                    Width = 150,
+                    Location = new Point(25, 210)
+                };
+
+
+                NumericUpDown numCantidad = new NumericUpDown
+                {
+                    Minimum = 1,
+                    Maximum = producto.Stock,
+                    Value = 1,
+                    Width = 150,
+                    Location = new Point(25, 230)
+                };
+
+                Button btnAgregar = new Button
+                {
+                    Text = "Agregar",
+                    Width = 150,
+                    Location = new Point(25, 260)
+                };
+
+
+                btnAgregar.Click += (sender, e) => AgregarProducto(producto, (int)numCantidad.Value);
+
+                tarjetaProducto.Controls.Add(picImagen);
+                tarjetaProducto.Controls.Add(lblNombre);
+                tarjetaProducto.Controls.Add(lblPrecio);
+                tarjetaProducto.Controls.Add(lblStock);
+                tarjetaProducto.Controls.Add(numCantidad);
+                tarjetaProducto.Controls.Add(btnAgregar);
+
+                flpProductos.Controls.Add(tarjetaProducto);
+            }
+        }
+
+
+
+        private void AgregarProducto(Producto producto, int cantidadSeleccionada)
+        {
+
+            var productoExistente = productosSeleccionados.FirstOrDefault(p => p.Code == producto.Code);
+            if (productoExistente != null)
+            {
+                productoExistente.Cantidad += cantidadSeleccionada;
             }
             else
             {
-                // Consumidor Final (CF)
-                return 0;
+                producto.Cantidad = cantidadSeleccionada;
+                productosSeleccionados.Add(producto);
             }
+
+            string itemFactura = $"{producto.Name} - Cantidad: {cantidadSeleccionada} - Precio: Q{producto.Price * cantidadSeleccionada}";
+            listBoxFactura.Items.Add(itemFactura);
+
+            totalFactura += producto.Price * cantidadSeleccionada;
+            lblTotal.Text = $"Total: Q{totalFactura}";
         }
 
-        private bool VerificarSaleID(string saleID)
+        private void CargarClientesYEmpleados()
         {
-            string query = "SELECT COUNT(*) FROM Sales WHERE SaleID = @SaleID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SaleID", saleID);
-                connection.Open();
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
-            }
+
+
+            string queryClientes = "SELECT CustomerID, FirstName + ' ' + LastName AS FullName FROM Customers";
+            SqlDataAdapter adapterClientes = new SqlDataAdapter(queryClientes, connection);
+            DataTable dtClientes = new DataTable();
+            adapterClientes.Fill(dtClientes);
+
+            cmbClientes.DisplayMember = "FullName";
+            cmbClientes.ValueMember = "CustomerID";
+            cmbClientes.DataSource = dtClientes;
+
+
+            string queryEmpleados = "SELECT EmployeeID, FirstName + ' ' + LastName AS FullName FROM Employees";
+            SqlDataAdapter adapterEmpleados = new SqlDataAdapter(queryEmpleados, connection);
+            DataTable dtEmpleados = new DataTable();
+            adapterEmpleados.Fill(dtEmpleados);
+
+            cmbEmpleados.DisplayMember = "FullName";
+            cmbEmpleados.ValueMember = "EmployeeID";
+            cmbEmpleados.DataSource = dtEmpleados;
+
         }
 
-        private int RegistrarVenta(string customerID, decimal totalAmount)
+        private void BtnRegresar_Click(object sender, EventArgs e)
         {
-            string query = "INSERT INTO Sales (CustomerID, SaleDate, TotalAmount) OUTPUT INSERTED.SaleID " +
-                           "VALUES (@CustomerID, @SaleDate, @TotalAmount)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@CustomerID", customerID);
-                command.Parameters.AddWithValue("@SaleDate", DateTime.Now);
-                command.Parameters.AddWithValue("@TotalAmount", totalAmount);
-                connection.Open();
-                return (int)command.ExecuteScalar();
-            }
+            Menu Return = new Menu();
+            Return.Show();
+            this.Hide();
         }
 
-
-        private void BtnFinalizar_Click(object sender, EventArgs e)
+        private void btnVenta_Click(object sender, EventArgs e)
         {
-            string Cliente = txtIDCustomer.Text.Trim();
-            string Empleado = txtEmpleado.Text.Trim();
-
-
-            string query = "INSERT INTO Sales (SaleDate, CustomerID, EmployeeID, Total ) " +
-                           "VALUES (@SaleDate, @CustomerID, @EmployeeID, @Total)";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                try
+
+                if (cmbClientes.SelectedItem == null || cmbEmpleados.SelectedItem == null || listBoxFactura.Items.Count == 0)
                 {
-                    connection.Open();
-
-                    SqlCommand command = new SqlCommand(query, connection);
-
-                    DateTime Fecha = DateTime.Today;
-
-                    decimal totalAmount = GetTotalAmount(); 
-                    
-                    command.Parameters.AddWithValue("@Total", totalAmount); 
-                    command.Parameters.AddWithValue("@SaleDate", Fecha); 
-                    command.Parameters.AddWithValue("@CustomerID", Cliente);
-                    command.Parameters.AddWithValue("@EmployeeID", Empleado);
+                    MessageBox.Show("Por favor, seleccione un cliente, un empleado y productos antes de realizar la venta.");
+                    return;
+                }
 
 
+                int customerId = (int)cmbClientes.SelectedValue;
+                int employeeId = (int)cmbEmpleados.SelectedValue;
+                decimal totalVenta = totalFactura;
 
-                    int rowsAffected = command.ExecuteNonQuery();
 
-                    if (rowsAffected > 0)
+                string querySales = "INSERT INTO Sales (SaleDate, CustomerID, EmployeeID, Total) OUTPUT INSERTED.SaleID VALUES (@SaleDate, @CustomerID, @EmployeeID, @Total)";
+                int salesId;
+
+                using (SqlCommand command = new SqlCommand(querySales, connection))
+                {
+                    command.Parameters.AddWithValue("@SaleDate", DateTime.Now);
+                    command.Parameters.AddWithValue("@CustomerID", customerId);
+                    command.Parameters.AddWithValue("@EmployeeID", employeeId);
+                    command.Parameters.AddWithValue("@Total", totalVenta);
+
+                    if (connection.State == ConnectionState.Closed)
                     {
-                        MessageBox.Show("Venta agregada exitosamente, !Gracias por su compra¡");
-                        Menu menu = new Menu();
-                        menu.Show();
-                        this.Hide();
+                        connection.Open();
                     }
-                    else
+
+
+                    salesId = (int)command.ExecuteScalar();
+                }
+
+
+                foreach (var item in productosSeleccionados)
+                {
+                    string querySalesDetails = "INSERT INTO SaleDetails (SaleID, ProductID, Quantity, UnitPrice) VALUES (@SaleID, @ProductID, @Quantity, @UnitPrice)";
+
+                    using (SqlCommand command = new SqlCommand(querySalesDetails, connection))
                     {
-                        MessageBox.Show("No se pudo agregar la venta.");
+                        command.Parameters.AddWithValue("@SaleID", salesId);
+                        command.Parameters.AddWithValue("@ProductID", item.ProductID);
+                        command.Parameters.AddWithValue("@Quantity", item.Cantidad);
+                        command.Parameters.AddWithValue("@UnitPrice", item.Price);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Actualizar el stock del producto
+                    string queryUpdateStock = "UPDATE Products SET Stock = Stock - @Quantity WHERE ProductID = @ProductID";
+
+                    using (SqlCommand command = new SqlCommand(queryUpdateStock, connection))
+                    {
+                        command.Parameters.AddWithValue("@Quantity", item.Cantidad);
+                        command.Parameters.AddWithValue("@ProductID", item.ProductID);
+
+                        command.ExecuteNonQuery();
                     }
                 }
-                catch (Exception ex)
+
+
+                MessageBox.Show("Venta registrada con éxito.");
+
+
+                productosSeleccionados.Clear();
+                listBoxFactura.Items.Clear();
+                lblTotal.Text = "Total: Q0.00";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al realizar la venta: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
                 {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    connection.Close();
                 }
             }
+        }
+
+        private void cmbEmpleados_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
